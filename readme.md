@@ -1,2 +1,2 @@
-# shopify theme test readme file
+# hurrik test
 sdfsdfrf
