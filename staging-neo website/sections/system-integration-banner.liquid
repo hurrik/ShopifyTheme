@@ -1,0 +1,39 @@
+<div class="about-banner">
+    <img src="{{section.settings.image | img_url: 'grande'}}" alt="SYSTEMS INTEGRATION">
+  <div class="about-banner-text">
+    <h2>{{section.settings.banner_label}}</h2>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="about-text">
+        {{section.settings.content}} 
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+    "name": "Banner",
+    "settings": [
+        {
+            "id": "image",
+            "type": "image_picker",
+            "label": "Image 1",
+            "info": "Recommended size 1920x1920px"
+        },
+        {
+            "id": "content",
+            "type": "richtext",
+            "label": "Content"
+        },
+        {
+            "id": "banner_label",
+            "type": "text",
+            "label": "Banner label"
+        }
+    ]
+}
+{% endschema %}

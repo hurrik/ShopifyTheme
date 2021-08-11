@@ -1,0 +1,77 @@
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  </script>
+
+  {%comment%}
+  Dynamic remarketing code setup
+  {%endcomment%}
+
+  {% if template contains 'index' %}
+  <script type="text/javascript">
+  var google_tag_params = {
+  ecomm_pagetype: 'home',
+  user_id: '{{ customer.id }}'
+  };
+  </script>
+
+  {% elsif template contains 'collection' %}
+  <script type="text/javascript">
+  var google_tag_params = {
+  ecomm_pagetype: 'category',
+  user_id: '{{ customer.id }}',
+  ecomm_pcat:   '{{ collection.title }}'.toLowerCase()
+  };
+  </script>
+
+  {% elsif template contains 'product' %}
+  <script type= "text/javascript" >
+  var product_variant = "{{product.id}}";
+  var google_tag_params = {
+  ecomm_prodid: product_variant,
+  ecomm_pcat: '{{product.type}}', 
+  ecomm_pname: '{{product.title}}',
+  ecomm_pagetype: 'product',
+  user_id: '{{ customer.id }}',
+  inventoryStatus : '{{product.first_available_variant.available}}',
+  ecomm_pvalue: {{ product.price | money_without_currency | remove: ","}}    
+  };
+  </script>
+
+  {% elsif template contains 'cart' %}
+  <script type= "text/javascript">
+  var google_tag_params = {
+  ecomm_prodid: [{% for item in cart.items %}'{{ item.variant.id }}'{% unless forloop.last %},{% endunless %}{% endfor %}],
+  ecomm_pname:  [{% for item in cart.items %}'{{item.product.title}}'{% unless forloop.last %},{% endunless %}{% endfor %}],
+  ecomm_pcat:   [{% for item in cart.items %}'{{item.product.type}}'{% unless forloop.last %},{% endunless %}{% endfor %}], 
+  ecomm_pvalue: [{% for item in cart.items %}{{item.product.price | money_without_currency | remove: ","}}{% unless forloop.last %},{% endunless %}{% endfor %}],  
+  ecomm_pagetype: 'cart',
+  user_id: '{{ customer.id }}',
+  ecomm_totalvalue: {{cart.total_price | money_without_currency | remove: "," }}
+
+  }
+  </script>
+
+  {% elsif template contains 'search' %}
+  <script type="text/javascript">
+  var google_tag_params = {
+  ecomm_pagetype: 'searchresults',
+  user_id: '{{ customer.id }}'
+  }
+  </script>
+
+  {% else %}
+  <script type= "text/javascript">
+  var google_tag_params = {
+  ecomm_pagetype: 'other',
+  user_id: '{{ customer.id }}'
+  };
+  </script>
+  {% endif %}
+
+  <script>
+  window.dataLayer=window.dataLayer||[];
+  dataLayer.push ({   
+        'event':'dynamicRemarketingTriggered',
+        'google_tag_params': window.google_tag_params 
+  });
+  </script>

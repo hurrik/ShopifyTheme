@@ -1,0 +1,43 @@
+{%- layout none -%}
+
+{
+  "menusHash": {
+    {%- for linklist in linklists %}
+      "{{ linklist.handle }}": {{ forloop.index0 }}{%- if forloop.last == false %},{% endif -%}
+    {% endfor -%}
+  },
+  "menus": [{%- for linklist in linklists -%}
+    {
+      "handle": "{{ linklist.handle }}",
+      "levels": {{ linklist.levels }},
+      "title": "{{ linklist.title }}",
+      "links": [{% for link in linklist.links %}{
+          "title": "{{ link.title }}",
+          "url": "{% if link.type != "http_link" %}{{ shop.url }}{% endif %}{{ link.url }}",
+          "links": [
+            {%- for linkLevel1 in link.links -%}
+            {
+              "title": "{{ linkLevel1.title }}",
+              "url": "{% if linkLevel1.type != "http_link" %}{{ shop.url }}{% endif %}{{ linkLevel1.url }}",
+              "links": [
+                {%- for linkLevel2 in linkLevel1.links -%}
+                {
+                  "title": "{{ linkLevel2.title }}",
+                  "url": "{% if linkLevel2.type != "http_link" %}{{ shop.url }}{% endif %}{{ linkLevel2.url }}"
+                }
+                {%- if forloop.last == false %},{% endif -%}
+                {%- endfor -%}
+              ]
+            }
+            {%- if forloop.last == false %},{% endif -%}
+            {%- endfor -%}
+          ]
+        }
+        {%- if forloop.last == false %},{% endif -%}
+        {% endfor %}
+      ]
+    }
+    {%- if forloop.last == false -%},{%- endif -%}
+    {%- endfor -%}
+  ]
+}

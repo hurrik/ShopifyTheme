@@ -1,0 +1,146 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+     <div class="system-integration-heading">
+       <h2>{{ section.settings.block_label }}</h2>
+     </div>
+     <div>{{ section.settings.content }}</div>
+    </div>
+  </div>
+  <div class="row content-center">
+    <div class="col-2 turnkey-col-12">
+      <div class="holder ">
+          <div class="img-holder">
+            <img src="{{ section.settings.image1 | img_url : 'grande' }}" alt="" width="" height=""></div>
+          <div>{{ section.settings.label1 }}</div>
+      </div>
+    </div>
+    <div class="col-2 turnkey-col-12">
+      <div class="holder">
+        <div class="img-holder"><img src="{{ section.settings.image2 | img_url : 'grande' }}" alt="" width="" height=""></div>
+        <div>{{ section.settings.label2 }}</div>
+      </div>
+    </div>
+    <div class="col-2 turnkey-col-12">
+      <div class="holder">
+        <div class="img-holder"><img src="{{ section.settings.image3 | img_url : 'grande' }}" alt="" width="" height=""></div>
+        <div>{{ section.settings.label3 }}</div>
+      </div>
+    </div>
+    <div class="col-2 turnkey-col-12">
+      <div class="holder">
+        <div class="img-holder"><img src="{{ section.settings.image4 | img_url : 'grande' }}" alt="" width="" height=""></div>
+        <div>{{ section.settings.label4 }}</div>
+      </div>
+    </div>
+    <div class="col-2 turnkey-col-12">
+      <div class="holder">
+        <div class="img-holder"><img src="{{ section.settings.image5 | img_url : 'grande' }}" alt="" width="" height=""></div>
+        <div>{{ section.settings.label5 }}</div>
+      </div>
+    </div>
+    <div class="col-2 turnkey-col-12">
+      <div class="holder">
+        <div class="img-holder"><img src="{{ section.settings.image6 | img_url : 'grande' }}" alt="" width="" height=""></div>
+        <div>{{ section.settings.label6 }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="holder">
+        <a href="{{section.settings.button_link}}">{{section.settings.button_label}}</a>
+      </div>
+    </div>
+  </div>
+</div>  
+    
+
+{% schema %}
+{
+    "name": "Turnkey Services",
+    "settings": [
+        {
+            "id": "block_label",
+            "type": "text",
+            "label": "Label"
+        },
+		{
+            "id": "content",
+            "type": "richtext",
+            "label": "Content"
+        },
+        {
+            "id": "button_label",
+            "type": "text",
+            "label": "Button label"
+        },
+		{
+            "id": "button_link",
+            "type": "url",
+            "label": "Button Link"
+        },
+		{
+            "id": "image1",
+            "type": "image_picker",
+            "label": "Image 1"
+        },
+		{
+            "id": "label1",
+            "type": "text",
+            "label": "Label"
+        },
+		{
+            "id": "image2",
+            "type": "image_picker",
+            "label": "Image 2"
+        },
+		{
+            "id": "label2",
+            "type": "text",
+            "label": "Label"
+        },
+		{
+            "id": "image3",
+            "type": "image_picker",
+            "label": "Image 3"
+        },
+		{
+            "id": "label3",
+            "type": "text",
+            "label": "Label"
+        },
+		{
+            "id": "image4",
+            "type": "image_picker",
+            "label": "Image 4"
+        },
+		{
+            "id": "label4",
+            "type": "text",
+            "label": "Label"
+        },
+		{
+            "id": "image5",
+            "type": "image_picker",
+            "label": "Image 5"
+        },
+		{
+            "id": "label5",
+            "type": "text",
+            "label": "Label"
+        },
+		{
+            "id": "image6",
+            "type": "image_picker",
+            "label": "Image 6"
+        },
+		{
+            "id": "label6",
+            "type": "text",
+            "label": "Label"
+        }
+    ]
+}
+{% endschema %}

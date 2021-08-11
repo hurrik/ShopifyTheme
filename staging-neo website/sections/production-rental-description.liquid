@@ -1,0 +1,51 @@
+<div class="container">
+   <div class="row">
+      <div class="col-8">
+         <div class="holder">
+            <h3 class="solotech-heading">{{section.settings.heading_text}} </h3>
+           <div class="">{{section.settings.section_description}}</div>
+            <br>
+            <a href="{{sections.settings.button_link}}">{{section.settings.button_text}}</a>
+         </div>
+      </div>
+      <div class="col-4">
+        <img src="{{section.settings.section_banner | img_url: 'grande'}}" alt="PSSL_ABOUT_Solotech.jpg">
+      </div>
+   </div>
+</div>
+
+{% schema %}
+{
+    "name": "Page Description",
+    "settings": [{
+        "type": "text",
+        "id": "heading_text",
+        "label": "Heading",
+        "default": "Quick links"
+    }, {
+        "type": "textarea",
+        "id": "section_description",
+        "label": "Description",
+        "default": "Lorem Ipsum "
+    }, {
+        "type": "image_picker",
+        "id": "section_banner",
+        "label": "Banner Image"
+    }, {
+        "type": "text",
+        "id": "button_text",
+        "label": "Botton Text",
+        "default": "Hello"
+    }, {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+    }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

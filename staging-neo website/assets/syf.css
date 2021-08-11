@@ -1,0 +1,101 @@
+
+        form#dbuyform1 {
+            float: right;
+            margin: 0;
+            border: 0;
+            background: #f5f5f5;
+            padding: 10px 18px 20px;
+            display:none;
+        }
+        #dbuyform1 button {
+            float: right;
+            margin: 0;
+            border: 0;
+            padding: 0;
+        }
+        #digBuyModal.modal {
+            background-color: #0000005e;
+            max-width: none;
+            padding: 0;
+            width: auto;
+            border-radius: 0;
+            height: auto;
+            transform: none;
+            visibility: visible
+        }
+        #status_error {
+            position: fixed;
+            top: 300px;
+            background: #ffff;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            left: 0px;
+            right: 0px;
+            margin: 0px auto;
+            box-shadow: 1px 1px 7px #000;
+            padding: 20px;
+            color: red;
+            z-index: 9999;
+        }
+        #cartButtonTrigger { 
+            margin: 0px;
+            float: none;
+            background: transparent;
+            border: 0px;
+            outline: none;  
+        }
+        #cartButtonTrigger img {
+            display: block;
+            border: 1px solid #000;
+            max-width: 100%;
+            max-height: 36px;
+         }
+        .cart-drawer__footer .center #cartButtonTrigger {
+            margin: 39px;
+            float: none;
+            background: transparent;
+            border: 0px;
+            outline: none;    
+        }
+       .cart-drawer__footer .center #cartButtonTrigger img {           
+                display: block;
+                border: 1px solid #000;
+                max-width: 100%;
+                max-height: 100%;         
+        }
+       .cart__actions #cartButtonTrigger {
+            margin: 0px;
+            float: none;
+            background: transparent;
+            border: 0px;
+            outline: none;
+        }
+        .cart__actions #cartButtonTrigger img {
+                display: block;
+                border: 1px solid #000;
+                max-width: 100%;
+                max-height: 100%;
+        }
+        #dbuymodel1 {
+            display:none;
+        }
+        button.next_btn + #cartButtonTrigger {
+            clear: none;
+            padding: 0px 15px;
+            vertical-align: middle;
+            display: inline-block;
+        }
+        @media screen and (max-width: 750px){
+            #cartButtonTrigger {
+                padding: 0;
+                margin: 20px auto;
+                float: none;
+            }
+            #cartButtonTrigger img {
+                display: block;
+                border: 1px solid #000;
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }

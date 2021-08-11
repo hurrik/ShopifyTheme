@@ -1,0 +1,39 @@
+{% comment %}
+Copy into: The product block snippet
+Include with: {% include 'tt-collection-rating' %}
+{% endcomment %}
+{% if product.metafields.turnto.product_rating != blank %}
+  {%- assign rating = product.metafields.turnto.product_rating | times: 1 -%}
+  <div class="tt-container tt-product-block">
+    <span class="tt-product-block__stars">
+      {% for i in (1..5) %}
+        {%- assign half_star = i | minus: 0.75 -%}
+        {% if rating >= i %}
+          <span class="TTteaser__star">
+            <svg class="TTteaser__icon--full">
+              <use xlink:href="#tt-teaser-star--full"></use>
+            </svg>
+          </span>
+        {% elsif rating >= half_star and rating < i %}
+          <span class="TTteaser__star">
+            <svg class="TTteaser__icon--half">
+              <use xlink:href="#tt-teaser-star--half"></use>
+            </svg>
+          </span>
+        {% else %}
+          <span class="TTteaser__star">
+            <svg class="TTteaser__icon--empty">
+              <use xlink:href="#tt-teaser-star--empty"></use>
+            </svg>
+          </span>
+        {% endif %}
+      {% endfor %}
+    </span>
+  {% if product.metafields.turnto.product_review_count != blank %}
+    {%- assign reviews = product.metafields.turnto.product_review_count | times: 1 -%}
+    <span class="tt-product-block__rating">
+      {{ reviews }} {{ reviews | pluralize: "Review", "Reviews" }}
+    </span>
+  {% endif %}
+  </div>
+{% endif %}

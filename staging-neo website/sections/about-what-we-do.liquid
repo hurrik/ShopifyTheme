@@ -1,0 +1,67 @@
+<div class="container about-features">
+  <div class="html rte">
+    <div class="row">
+      {% for block in section.blocks %}
+        <div data-index="{{forloop.index}}" class="features-item">
+          <div class="holder">
+            <div class="img-holder">
+              <img src="{{block.settings.project_image | img_url : 'grande'}}" alt="PSSL_ABOUT-project-The-colosseum">
+            </div>
+            <b>{{block.settings.project_heading}}</b><br>
+            <p>{{block.settings.project_description}}</p>
+            <br><br>
+            {% if forloop.index > 3%}
+             <a href="{{block.settings.project_link}}">Explore</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor%}
+    </div>
+  </div>
+</div>
+
+<script>
+  var array = [4,5,9,10,14,15,19,20,24,25];
+  $('.features-item').each(function(ind,item){
+    var index = $(item).data('index');
+    var itemclass = array.indexOf(index) >=0  ?  'col-6' : 'col-4';
+    var classes = itemclass+' features-item';
+    $(item).attr('class',classes);
+  })
+</script>
+
+{% schema %}
+{
+    "name": "What We Do Items",
+    "settings": [],
+    "blocks": [{
+        "type": "select",
+        "name": "Single Item",
+        "settings": [{
+            "type": "text",
+            "id": "project_heading",
+            "label": "Projecct Heading",
+            "default": "GSA/AFNAF/Federal"
+        }, {
+            "type": "image_picker",
+            "id": "project_image",
+            "label": "Project Image"
+        }, {
+            "type": "textarea",
+            "id": "project_description",
+            "label": "Project Description",
+            "default": "Lorem Ipsum text"
+        },{
+            "id": "project_link",
+            "type": "url",
+            "label": "Explore URL"
+        }]
+    }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

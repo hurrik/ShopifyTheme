@@ -1,0 +1,49 @@
+<div class="container">
+   <div class="row">
+      <div class="col-8">
+         <div class="holder">
+            <h3 class="system-integration-heading">{{section.settings.block_label}} </h3>
+           <div class="">{{section.settings.content}}</div>
+            <br>
+            <a href="{{section.settings.button_link}}">{{section.settings.button_label}}</a>
+         </div>
+      </div>
+      <div class="col-4">
+        <img src="{{section.settings.image | img_url:'grande'}}" alt="">
+      </div>
+   </div>
+</div>
+
+{% schema %}
+{
+    "name": "Solotech block",
+    "settings": [
+        {
+            "id": "image",
+            "type": "image_picker",
+            "label": "Image 1",
+            "info": "Recommended size 420x420px"
+        },
+        {
+            "id": "content",
+            "type": "richtext",
+            "label": "Content"
+        },
+        {
+            "id": "block_label",
+            "type": "text",
+            "label": "Label"
+        },
+		{
+            "id": "button_label",
+            "type": "text",
+            "label": "Button label"
+        },
+		{
+            "id": "button_link",
+            "type": "text",
+            "label": "Button Link"
+        }
+    ]
+}
+{% endschema %}

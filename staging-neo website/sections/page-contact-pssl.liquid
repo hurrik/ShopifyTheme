@@ -1,0 +1,88 @@
+<div class="container">
+  <header class="page__header page__header--stack page__header--centered">
+    {%- if page.content != blank -%}
+      <div class="page__description rte">
+        {{ page.content }}
+      </div>
+    {%- endif -%}
+  </header>
+</div>
+
+<div class="container">
+  <div class="layout">
+    <div class="layout__section">
+      <!-- Contact us Form iFrame -->
+		<div style="margin:0 auto;" class="pxFormGenerator" id="Zk6Q8j4qzWZdf77XBAXZRQ"></div>
+    </div>
+
+    {%- if section.settings.show_store_info -%}
+      <div class="layout__section layout__section--large-secondary-contact">
+        <div class="contact__store-info">
+          {%- if section.settings.store_heading != blank -%}
+            <h2 class="contact__store-heading heading h3">{{ section.settings.store_heading | escape }}</h2>
+          {%- endif -%}
+
+          {%- if section.settings.store_image -%}
+            <div class="contact__store-image">
+              <div class="aspect-ratio" style="padding-bottom: {{ 100.0 | divided_by: section.settings.store_image.aspect_ratio }}%">
+                <img src="{{ section.settings.store_image | img_url: '700x' }}" alt="{{ section.settings.store_image.alt | escape }}">
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.store_info != blank -%}
+            <div class="contact__store-text rte">
+              {{ section.settings.store_info }}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Heading",
+      "default": "Leave your message"
+    },
+    {
+      "type": "header",
+      "content": "Store info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_store_info",
+      "label": "Show store info",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "store_heading",
+      "label": "Heading",
+      "default": "Find us"
+    },
+    {
+      "type": "image_picker",
+      "id": "store_image",
+      "label": "Store image",
+      "info": "700 x 500px .jpg recommended"
+    },
+    {
+      "type": "html",
+      "id": "store_info",
+      "label": "Text"
+    }
+  ]
+  
+}
+{% endschema %}

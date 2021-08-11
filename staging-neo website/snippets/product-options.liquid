@@ -1,0 +1,95 @@
+<style>
+    #other-options{
+    width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      display: none;
+  }
+  #other-options .product-box{
+      background-color: #FFFFFF;
+      border: 1px solid #A4A4A4;
+      color: inherit;
+      display: block;
+      float: left;
+      font-size: 12px;
+      margin: 10px 10px 0 0;
+      padding: 10px;
+      text-decoration: none;
+    cursor: pointer;
+
+  }
+  #other-options .product-box:hover {
+      background-color: 
+      #E8E8E8;
+  }
+
+  #other_options .title {
+      font-size: 14px;
+      font-weight: bold;
+  }
+  </style>
+{%- assign selected_kitvariant = product.selected_or_first_available_variant -%}
+{% assign options = selected_kitvariant.metafields.bcs.BCS_options | split: ',' %}
+{% assign skuCount = 0%}
+{%assign optionsSkus = "" %}
+{% for option in options %}
+{%assign optionsSkus = optionsSkus | append: "sku:" | append: option%}
+{%unless forloop.last%}
+{%assign optionsSkus = optionsSkus | append: " OR "%}
+{%endunless%} 
+{% assign skuCount = skuCount | plus: 1 %}
+{% endfor %}
+{%assign gqlQuery = '{productVariants(first: ' | append: skuCount | append: ', query: "' | append: optionsSkus | append: '") {edges {node {price product{title tags onlineStoreUrl onlineStorePreviewUrl }}}}}' %}      
+<script>
+  var jsonData = '{{ gqlQuery}}';
+  var componentData =  fetch('https://www.pssl.com/admin/api/graphql.json', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/graphql',
+      'X-Shopify-Access-Token':'b1873db5dd0aa1900c2c4937bd3e7bd5'
+    },
+    body: jsonData
+  }).then(function(res){ return res.json(); })
+  .then(function(data){ 
+    //alert(JSON.stringify(data));
+    var edges = data.data.productVariants.edges; 
+    optionsHtml = "";
+    if(edges.length > 0){
+      for(i=0;i<edges.length;i++){
+        var prodUrl = "";
+        if(edges[i].node.product.onlineStoreUrl != null){
+          prodUrl = edges[i].node.product.onlineStoreUrl;
+        }else{
+          prodUrl = edges[i].node.product.onlineStorePreviewUrl;
+        }
+        var productTags = edges[i].node.product.tags.toString().split(",");
+        //productTags = productTags.split(",");
+        var shortTitle = "";
+        if(productTags.length > 0){
+          for(st = 0;st < productTags.length;st++){
+            if(productTags[st].includes("option-title-")){
+              shortTitle = productTags[st].replace("option-title-",""); 
+            }
+          }
+        }
+        if(shortTitle.length == 0){
+          shortTitle = edges[i].node.product.title.toString().substr(0,10);
+        }
+        optionsHtml += "<div onclick=\"document.location.href='" + prodUrl + "'\" class=\"product-box\">";
+        optionsHtml += shortTitle;
+        optionsHtml += "<br>$" + edges[i].node.price;
+        optionsHtml += "</div>";
+
+      }
+      document.getElementById("other-options-products").innerHTML = optionsHtml;
+      document.getElementById("other-options").style.display = "block";
+    }
+
+  });
+</script>
+<div id="other-options">
+  <div id="other-options-title">Other Available Options</div>
+  <div id="other-options-products"></div>
+  <div style="clear: both;"></div>
+</div>
+

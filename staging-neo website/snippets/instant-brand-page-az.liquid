@@ -1,0 +1,16 @@
+{% assign desktopnav = "<p>" %}
+{% for product_vendor in my_vendor_array_sorted %}
+{% unless excludedbrands_array contains  product_vendor %}
+	{% assign startingletter =  product_vendor | slice: 0 | capitalize %}
+    {% if headerletter != startingletter %}
+      {% assign desktopnav = desktopnav | append: "<a class='instant-brand-letter' href=" | append: page.url | append: "#zz" | append: startingletter | append: ">" | append: startingletter | append: "</a>&nbsp;" %}
+      {% assign headerletter = startingletter %}  
+  	{% endif%}
+{% endunless%}
+{% endfor %}
+
+<div class="instant-brand-page-az">
+  {% assign desktopnav = desktopnav | append: "</p>" %}
+		{{ desktopnav }}
+</div>
+

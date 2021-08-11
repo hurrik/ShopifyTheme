@@ -1,0 +1,36 @@
+{% render 'system-featured-projects', sections:section,rental:true%}
+
+
+{% schema %}
+{
+    "name": "Featured Projects",
+    "settings": [{
+        "type": "text",
+        "id": "heading_text",
+        "label": "Heading"
+    }, {
+        "type": "richtext",
+        "id": "section_description",
+        "label": "Description"
+    }],
+    "blocks": [{
+        "type": "select",
+        "name": "FEATURED PROJECTS",
+        "settings": [{
+            "type": "text",
+            "id": "project_heading",
+            "label": "Projecct Heading",
+            "default": "GSA/AFNAF/Federal"
+        }, {
+            "type": "image_picker",
+            "id": "project_image",
+            "label": "Project Image"
+        }, {
+            "type": "textarea",
+            "id": "project_description",
+            "label": "Project Description",
+            "default": "Lorem Ipsum text"
+        }]
+    }]
+}
+{% endschema %}

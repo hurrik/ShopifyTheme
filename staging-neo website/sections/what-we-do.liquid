@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-12">
+    <div class="what-we-do-box" style="background: url({{section.settings.section_banner | img_url : 'grande' }}) no-repeat;background-size:cover">
+      <div class="www-header-left col-9">
+        <h2>{{section.settings.heading_text}}</h2>
+        <p>{{section.settings.section_description}}</p>
+      </div>
+      <br>
+    </div>
+  </div>
+</div>
+
+
+
+{% schema %}
+{
+    "name": "What We Do",
+    "settings": [{
+        "type": "text",
+        "id": "heading_text",
+        "label": "Heading",
+        "default": "Quick links"
+    }, {
+        "type": "textarea",
+        "id": "section_description",
+        "label": "Description",
+        "default": "Lorem Ipsum "
+    }, {
+        "type": "image_picker",
+        "id": "section_banner",
+        "label": "Banner Image"
+    }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

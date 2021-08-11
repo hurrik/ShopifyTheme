@@ -1,0 +1,49 @@
+{% layout none %}
+{% paginate search.results by 5 %}
+ {% capture output %}
+ {% for result in search.results %}
+        {% assign resultURL = result.url %}
+        {% assign thumbURL = result.images[0] | product_img_url: '450x450', crop: 'center' %}
+        {"title":"{{ result.title | replace: '\\', '\\\\' | replace: '"', '\\"' | replace:  '/','\\/' }}",
+          "onlineStoreUrl":"{{ result.url   | replace: '\\', '\\\\' | replace: '"', '\\"' | replace:  '/','\\/' }}",
+         "thumb":"{{ thumbURL     | replace: '\\', '\\\\' | replace: '"', '\\"' | replace:  '/','\\/' }}",
+
+          {%- assign hideBuyButtonsNow = "N" -%}
+          {% assign variant = result.selected_or_first_available_variant %}
+
+          {%- assign onhand = variant.inventory_quantity | floor -%}
+          {%- assign poQty = variant.metafields.bcs["BCS_pounits"] | plus: 0 -%}
+          {%- assign status = variant.metafields.bcs["BCS_itemstatus"] -%}
+          {%- if onhand < 1 and poQty == 0 -%}
+            {%- if status == "C1" or status == "C3" or status == "J1" -%}
+             {%- assign hideBuyButtonsNow = "Y" -%}
+            {% endif %}
+          {% endif %}
+
+			{% capture list %}
+            {% for variant in result.variants %}
+           	 {{ variant.id }}
+            {% endfor %}
+            {% endcapture %}
+
+
+            {% capture skus %}
+            {% for variant in result.variants %}
+           	 {{ variant.sku }}
+            {% endfor %}
+            {% endcapture %}
+
+            {% assign skus = skus | split: ' ' %}
+            {% assign variants = list | split: ' ' %}
+          	 "variants": "{{ variants | join: ', ' }}",
+            "skus": "{{ skus | join: ', ' }}",
+
+            "inv_qty": "{{first_variant.inventory_quantity | floor }}",
+            "bcs_hide_status": "{{hideBuyButtonsNow}}",
+            "BCS_nosearch": "{{variant.metafields.bcs["BCS_nosearch"]}}",
+            "price":"{{ result.price | money}}",
+            "id":{{result.id}} }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+{% endcapture %}
+{"results_total":{{paginate.items}},"products":[{{ output | strip_newlines }}]}
+{% endpaginate %}

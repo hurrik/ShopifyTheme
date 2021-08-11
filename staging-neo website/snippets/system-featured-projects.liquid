@@ -1,0 +1,24 @@
+<div class="container about-features mt">
+   <div class="row">
+      <div class="col-12">
+         <div class="holder">
+            <h3 class="system-integration-heading">{{section.settings.heading_text}}</h3>
+      		<div class="">{{section.settings.section_description}}</div>
+    
+        </div>
+     </div>
+  </div>
+  <div class="row {% if rental%}mt{% endif%}">
+    {% for block in section.blocks%}
+    <div class="col-3">
+      <div class="holder">
+        <div class="img-holder img-margin">
+          <img data-src="{{block.settings.project_image | img_url:'grande'}}"  class=" ls-is-cached lazyloaded"  src="{{block.settings.project_image | img_url:'grande'}}">
+        </div>
+        <b class="">{{block.settings.project_heading}}</b>
+        <div class="page__meta">{{block.settings.project_description}}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

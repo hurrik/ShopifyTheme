@@ -1,0 +1,76 @@
+{% stylesheet %}
+	.what-we-do-box{
+      background-size:cover;
+	}
+    .www-header-left{
+      padding: 1px 0 38px 20px;
+    }
+    .www-header-left h2{
+      color: #fff;
+      margin: 1.55em 0 .6em 0;
+      font-size: 29px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .www-header-left p{
+      font-size: 15px;
+      color:#fff;
+    }
+{% endstylesheet %}
+
+<div class="container">
+  <div class="row">
+    <a href="/collections/used-dj-pa-lighting-equipment">
+    <div class="what-we-do-box" style="background: url({{section.settings.image | img_url : '1920x1920' }}) no-repeat;background-size:cover">
+      <div class="www-header-left col-9">
+        <h2>{{section.settings.heading}}</h2>
+        <p>{{section.settings.content}}</p>
+      </div>
+      <br>
+    </div>
+    </a>  
+  </div>
+</div>
+
+<!--<div class="container sale-block">
+  <div class="html rte">
+    <div><a href="/collections/used-dj-pa-lighting-equipment"> 
+		<img src="{{ section.settings.image | img_url: '1920x1920' }}" style="width:100%" class="ls-is-cached lazyloaded" alt="">
+      <div class="sale-content">
+      	<h3 class="sale-font">{{ section.settings.heading }}</h3>
+        <div class="col-10">{{ section.settings.content }}</div>
+      </div>
+      </a>
+	</div>
+  </div>
+</div>-->
+
+{% schema %}
+{
+    "name": "Equipment Sale",
+    "settings": [
+        {
+            "id": "image",
+            "type": "image_picker",
+            "label": "Image",
+            "info": "Recommended size 840x615px"
+        },
+        {
+            "id": "heading",
+            "type": "text",
+            "label": "Heading"
+        },
+		{
+            "id": "content",
+            "type": "richtext",
+            "label": "Content"
+        }
+    ],
+	"presets": [
+    {
+      "name": "Equipment Sale",
+      "category": "Sale"
+    }
+  	]
+}
+{% endschema %}

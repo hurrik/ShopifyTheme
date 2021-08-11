@@ -1,0 +1,96 @@
+<div class="container full-service-offer">
+  <div class="row holder">
+    <h3 class="heading h3 uppercase">{{ section.settings.heading }}</h3>
+    <div class="">{{ section.settings.content }}</div>
+    <div class="col-6 col-margin-right">
+      <img src="{{ section.settings.image1 | img_url: '1920x1920' }}">
+      <h3 class="custom-head">{{ section.settings.heading1 }}</h3>
+      <div>{{ section.settings.content1 }}</div>
+      <br>
+      <a href="{{ section.settings.button-link1 }}">{{ section.settings.button-label1 }}</a>
+    </div>
+    <div class="col-6 col-margin-left">
+      <img src="{{ section.settings.image2 | img_url: '1920x1920' }}">
+      <h3 class="custom-head">{{ section.settings.heading2 }}</h3>
+      <div>{{ section.settings.content2 }}</div>
+      <br>
+      <a href="{{ section.settings.button-link2 }}">{{ section.settings.button-label2 }}</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+    "name": "Full Service Offer",
+    "settings": [
+        {
+            "id": "heading",
+            "type": "text",
+            "label": "Heading"
+        },
+		{
+            "id": "content",
+            "type": "richtext",
+            "label": "Content"
+        },
+		{
+            "id": "image1",
+            "type": "image_picker",
+            "label": "Image 1",
+            "info": "Recommended size 840x615px"
+        },
+		{
+            "id": "heading1",
+            "type": "text",
+            "label": "Heading 1"
+        },
+		{
+            "id": "content1",
+            "type": "richtext",
+            "label": "Content 1"
+        },
+        {
+            "id": "button-label1",
+            "type": "text",
+            "label": "Button Label 1"
+        },
+        {
+            "id": "button-link1",
+            "type": "text",
+            "label": "Button Link 1"
+        },
+		{
+            "id": "image2",
+            "type": "image_picker",
+            "label": "Image 2",
+            "info": "Recommended size 840x615px"
+        },
+		{
+            "id": "heading2",
+            "type": "text",
+            "label": "Heading 2"
+        },
+		{
+            "id": "content2",
+            "type": "richtext",
+            "label": "Content 2"
+        },
+        {
+            "id": "button-label2",
+            "type": "text",
+            "label": "Button Label 2"
+        },
+        {
+            "id": "button-link2",
+            "type": "text",
+            "label": "Button Link 2"
+        }
+    ],
+	"presets": [
+    {
+      "name": "Full Service Offer",
+      "category": "Offer"
+    }
+  	]
+}
+{% endschema %}

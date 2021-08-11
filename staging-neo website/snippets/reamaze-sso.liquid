@@ -1,0 +1,23 @@
+<!-- Reamaze SSO file - DO NOT REMOVE -->
+
+{% if shop.customer_accounts_enabled and customer.id %}
+{% assign sso_key = '4136ca9dee6b89f2cb60d221230d06c3eb01282e332d26e7378e6f8efe5a6bc1' %}
+
+<script>
+var _support = _support || { 'ui': {}, 'user': {} };
+_support['user'] = {
+  shop: '{{ shop.permanent_domain }}',
+  id: '{{ customer.id }}',
+  authtype: 'hmac-sha256',
+  authkey: '{{ customer.id | append:':' | append:customer.email | hmac_sha256: sso_key }}',
+  email: '{{ customer.email }}',
+  name: '{{ customer.name }}',
+  data: {
+    '({{ shop.permanent_domain }}) Order count': '{{ customer.orders_count }}',
+    '({{ shop.permanent_domain }}) Total spent': '{{ customer.total_spent | money }}',
+    '({{ shop.permanent_domain }}) Recent order': '{% if customer.last_order.name %}{{ customer.last_order.name }} - {{ customer.last_order.created_at | date: '%B %d, %Y %I:%M%p' }}{% endif %}'
+  }
+};
+</script>
+
+{% endif %}

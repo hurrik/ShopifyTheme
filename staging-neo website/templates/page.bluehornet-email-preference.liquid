@@ -1,0 +1,255 @@
+<style>
+  #pre_form{
+    display: none;
+  }
+  #email-preference{
+    width:100%;
+    max-width:800px;
+    margin:auto;
+    margin-top:30px;
+    margin-bottom:30px;
+  }
+
+  .btn.btn-block {
+    width: 100%;
+  }
+
+  .btn.btn-subscribe {
+    padding: 20px;
+    background: #666262;
+    color: #fff;
+    font-weight: 700;
+  }
+  .btn.btn-block {
+      width: 300px !important;
+    
+  }
+  .btn.btn-primary {
+    padding: 12px !important;
+  }
+  .btn.btn-subscribe {
+    padding: 12px !important;
+  }
+  #old_pre_data, #unsubscribe, #unsubscribe_message{
+    display: none;
+  }
+  label {
+    font-weight: bold;
+  }
+  label.custom-control-label {
+    font-weight: normal;
+  }
+
+</style>
+<div class="container">
+  <div class="page__content rte">
+    {{ page.content }}
+
+    <div class="row" id="email-preference">
+      <div id="loading">
+        <span >Loading...</span>
+      </div>
+      <div id="message">
+
+      </div>
+      <form id="pre_form">
+  
+        <div class="row">
+          <label for="pre_email" class="col-3">Email</label> 
+          <div class="col-9" >
+            <input id="pre_email" name="pre_email"  type="text" class="form-control">
+          </div>
+        </div>
+        
+        <div id="old_pre_data">
+          <div> 
+            <div><em>Not you?</em> <a id="reset_profile" href="#">Edit a different email address</a></div>
+          </div>
+          <hr>
+
+          <div class="row">
+            <label for="pre_fname" class="col-3">First Name</label> 
+            <div class="col-9">
+              <input id="pre_fname" name="pre_fname" type="text" class="form-control">
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="pre_lname" class="col-3">Last Name</label> 
+            <div class="col-9">
+              <input id="pre_lname" name="pre_lname" type="text" class="form-control">
+            </div>
+          </div>
+
+          <div class="row">
+            <label for="pre_postcode" class="col-3">Zip code</label> 
+            <div class="col-9">
+              <input id="pre_postcode" name="pre_postcode" type="text" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12">Email Language Preference?</label> 
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_lang_checkbox" id="pre_lang_checkbox_0" type="checkbox" class="custom-control-input segment_option" value="838293"> 
+                  <label for="pre_lang_checkbox_0" class="custom-control-label">English</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_lang_checkbox" id="pre_lang_checkbox_1" type="checkbox" class="custom-control-input segment_option" value="838294"> 
+                  <label for="pre_lang_checkbox_1" class="custom-control-label">Spanish</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-12">What type of gear would you like to hear about?</label>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_hear_checkbox" id="pre_hear_checkbox_0" type="checkbox" class="custom-control-input segment_option" value="830634"> 
+                  <label for="pre_hear_checkbox_0" class="custom-control-label">Accessories</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_hear_checkbox" id="pre_hear_checkbox_1" type="checkbox" class="custom-control-input segment_option" value="830633"> 
+                  <label for="pre_hear_checkbox_1" class="custom-control-label">DJ Gear</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_hear_checkbox" id="pre_hear_checkbox_2" type="checkbox" class="custom-control-input segment_option" value="838292"> 
+                  <label for="pre_hear_checkbox_2" class="custom-control-label">Guitar &amp; Bass</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_hear_checkbox" id="pre_hear_checkbox_3" type="checkbox" class="custom-control-input segment_option" value="838291"> 
+                  <label for="pre_hear_checkbox_3" class="custom-control-label">Keyboards &amp; Production</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_hear_checkbox" id="pre_hear_checkbox_4" type="checkbox" class="custom-control-input segment_option" value="830632"> 
+                  <label for="pre_hear_checkbox_4" class="custom-control-label">Lighting</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_hear_checkbox" id="pre_hear_checkbox_5" type="checkbox" class="custom-control-input segment_option" value="830631"> 
+                  <label for="pre_hear_checkbox_5" class="custom-control-label">Pro Audio</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_hear_checkbox" id="pre_hear_checkbox_6" type="checkbox" class="custom-control-input segment_option" value="830630"> 
+                  <label for="pre_hear_checkbox_6" class="custom-control-label">Studio and Recording</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="form-group row">
+            <label class="col-12">What types of email messages would you prefer?</label>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_email_checkbox" id="pre_email_checkbox_0" type="checkbox" class="custom-control-input segment_option" value="838299"> 
+                  <label for="pre_email_checkbox_0" class="custom-control-label">Contests</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_email_checkbox" id="pre_email_checkbox_1" type="checkbox" class="custom-control-input segment_option" value="838296"> 
+                  <label for="pre_email_checkbox_1" class="custom-control-label">Killer Daily Deals</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_email_checkbox" id="pre_email_checkbox_2" type="checkbox" class="custom-control-input segment_option" value="854412"> 
+                  <label for="pre_email_checkbox_2" class="custom-control-label">New Gear Alerts</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_email_checkbox" id="pre_email_checkbox_3" type="checkbox" class="custom-control-input segment_option" value="838297"> 
+                  <label for="pre_email_checkbox_3" class="custom-control-label">Price Cuts</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_email_checkbox" id="pre_email_checkbox_4" type="checkbox" class="custom-control-input segment_option" value="838300"> 
+                  <label for="pre_email_checkbox_4" class="custom-control-label">SoCal Local Deals</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_email_checkbox" id="pre_email_checkbox_5" type="checkbox" class="custom-control-input segment_option" value="838298"> 
+                  <label for="pre_email_checkbox_5" class="custom-control-label">Tech Corner</label>
+                </div>
+              </div>
+              <div class="custom-controls-stacked">
+                <div class="custom-control custom-checkbox">
+                  <input name="pre_email_checkbox" id="pre_email_checkbox_6" type="checkbox" class="custom-control-input segment_option" value="838295"> 
+                  <label for="pre_email_checkbox_6" class="custom-control-label">Weekly Deals</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+          <p>Tell your friends and family about PSSL!</p>
+          <div class="">
+            <div class="row">
+              <label for="pre_frnd_name" class="col-3">Friend Name</label> 
+              <div class="col-9">
+                <input id="pre_frnd_name" name="pre_frnd_name" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="row">
+              <label for="pre_frnd_email"  class="col-3">Friend Email</label> 
+              <div class="col-9">
+                <input id="pre_frnd_email" name="text" type="text" class="form-control">
+              </div>
+            </div> 
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-6">
+            <button name="submit" type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit</button>
+          </div>
+          <div class="col-6">
+            <button  name="unsubscribe" id="unsubscribe" type="button" class="btn btn-subscribe btn-block">Unsubscribe</button>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div id="unsubscribe_message" class="col-12">
+            If you no longer wish to receive emails from PSSL, please click the unsubscribe button above. In doing so we will be unable to tell you about exclusive sale events and special discount pricing.
+          </div>
+        </div>
+        <div class="form-group row">
+          <div id="subscribe_message" class="col-12">
+            Please enter your email address to sign-up, update your preferences, or unsubscribe.
+          </div>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+</div>

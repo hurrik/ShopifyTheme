@@ -1,0 +1,80 @@
+<script>
+  
+//set KDD variables here
+
+var kddDate = "07-20-2021";
+var kddURL = "/products/gemini-as-08togo-8-inch-powered-portable-bluetooth-speaker";
+var kddDate1 = "07-21-2021";
+var kddURL1 = "/products/phase-essential-2-channel-wireless-dvs-system-w-2-remotes?variant=40182875128002";
+var kddDate2 = "07-22-2021";
+var kddURL2 = "/products/etc-ls4-source-4-leko-750w-ellipsoidal";
+var kddDate3 = "07-23-2021";
+var kddURL3 = "/products/10ft-xlr-to-xlr-microphone-cable-6-pack";
+var kddDate4 = "07-24-2021";
+var kddURL4 = "/products/meyer-sound-m1d-sub-amplified-line-array-subwoofer";  
+  
+//do not edit below this line
+var today = new Date();
+const dd = String(today.getDate()).padStart(2, '0');
+const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+const yyyy = today.getFullYear();
+
+today = mm + '-' + dd + '-' + yyyy;
+  
+  switch(today) {
+  
+    case kddDate: 
+    	window.location.href = kddURL;
+      	break;
+      
+    case kddDate1:
+       	window.location.href = kddURL1;
+      	break;
+      
+    case kddDate2:
+       	window.location.href = kddURL2;
+		break;
+      
+    case kddDate3:
+       	window.location.href = kddURL3;
+      	break;
+      
+    case kddDate4:
+       	window.location.href = kddURL4;
+      	break;
+    
+    default:
+      console.log("No KDD is set");
+  }
+  
+  
+</script>
+  
+
+{% schema %}
+  {
+    "name": "KDD Config",
+    "settings": [
+			{
+				"type" : "text",
+				"id" : "kdd_date",
+				"label" : "KDD Date 1",
+				"info" : "Format: 12-11-2019",
+				"default" : "MM-DD-YYYY"
+				
+			},
+			{
+				"type" : "url",
+				"id" : "kdd_url",
+				"label" : "KDD Product"
+					
+			}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

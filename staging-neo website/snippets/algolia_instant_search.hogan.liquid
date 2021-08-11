@@ -1,0 +1,152 @@
+<div class="ais-page">
+ 
+  <div class="ais-facets-button">
+    Show filters
+  </div>
+  
+  <div class="ais-facets" id="ais-facets">
+    <!-- Blue Hornet Side Bar -->
+    <div class="bh-sidebar">
+      <h4>Get Weekly Deal Alerts!</h4>
+    
+    <div id="ftr-deal-alerts-sb" class="show-for-medium">
+  		<form method="post" id="bh-sidebar-form">
+    		<input type="hidden" name="NewSubscriber" value="true">
+    		<div class="bh-segment form__input-wrapper form__input-wrapper--labelled form-email">
+      			<input type="email" name="subscriber_email" id="bh-sidebar-email" class="form__field form__field--text"  title="Email Address" placeholder="Email" required>
+      			
+    		</div>
+    		<div class="bh-segment form__input-wrapper form__input-wrapper--labelled form-zip">
+      			<input type="text" name="postcode" id="bh-sidebar-zip" class="form__field form__field--text"  title="Zip Code" placeholder="Zip Code">
+      			
+    		</div>
+          <div class="bh-segment">
+          
+          <input type="checkbox" id="rdo838296-sb" name="othersegs" value="838296" checked="checked">
+            <label for="rdo838296-sb"><span class="bh-segment-name">Sign me up for <b>Killer Daily Deals</b></span></label>
+      	  </div>
+          <div class="bh-segment">
+        	<input type="checkbox" id="rdo838295-sb" name="othersegs" value="838295" checked="checked">
+            <label for="rdo838295-sb"><span class="bh-segment-name">Sign me up for <b>Weekly Deals</b></span></label>
+      	  </div>
+    	
+          <button type="submit" class="form__submit button button--full button-sb" value="Sign Me Up!">Sign Me Up!</button>
+  		</form>
+	</div>
+      <hr>
+    </div>
+    
+    <!-- END Blue Hornet Side Bar -->
+    
+    <div class="ais-current-refined-values-container"></div>
+     
+    
+    <div class="ais-facet-disjunctive ais-facet-named_tags.Category"></div><button type="button" class="more-btn" style="display: none" onclick="showMore(1,0);">+ Show More</button>
+    <div class="ais-facet-disjunctive ais-facet-inventory algolia-in-stock"></div>
+	<div class="ais-facet-disjunctive ais-facet-product_type"></div>
+	<div class="ais-facet-disjunctive ais-facet-vendor"></div><button type="button" class="more-btn" style="display: none" onclick="showMore(2,1);">+ Show More</button>
+    <div class="ais-facet-disjunctive ais-facet-price_range"></div><button type="button" class="more-btn" style="display: none" onclick="showMore(3,2);">+ Show More</button>
+	<div class="ais-facet-disjunctive ais-facet-options.title"></div><button type="button" class="more-btn" style="display: none" onclick="showMore(4,3);">+ Show More</button>
+	
+    <div class="ais-facet-slider ais-facet-meta.turnto.product_rating" style="display:none;"></div>
+   		 <button type="button" class="more-btn" style="display: none" onclick="showMore(5,4);">+ Show More
+    </button>
+	
+    <div class="ais-root ais-refinement-list ais-facet  customer-rating">
+      <div class="ais-refinement-list--header ais-facet--header ais-header">Rating</div>
+      <div class="ais-body ais-refinement-list--body ais-facet--body">
+        <div class="ais-refinement-list--list">
+          <div class="ais-refinement-list--item">
+            <div id="star-rating"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="ais-facet-disjunctive ais-facet-named_tags.Application"></div><button type="button" class="more-btn" style="display: none" onclick="showMore(6,5);">+ Show More</button>
+	<div class="ais-facet-disjunctive ais-facet-named_tags.Light%20Engine"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-disjunctive ais-facet-named_tags.Multi%20Color%20Chip"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-disjunctive ais-facet-named_tags.LED%20Size"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-disjunctive ais-facet-named_tags.Number%20of%20LEDs"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-disjunctive ais-facet-named_tags.ETL%20Certified"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-disjunctive ais-facet-named_tags.Control"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-disjunctive ais-facet-named_tags.Lighting%20Controller%20Type"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-disjunctive ais-facet-named_tags.Lighting%20Controller%20Channels"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-disjunctive ais-facet-named_tags.Power"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-disjunctive ais-facet-named_tags.Weather%20Rated"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Effects%20%26%20Options"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.DMX%20Connector%20Type"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Truss%20Style"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Fog%20%26%20Haze%20Fluid%20Type"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Truss%20Shape"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Truss%20Type"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Truss%20Length"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Wireless%20Analog%2FDigital"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Transmitters"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Turntable%20Drive"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Compatible%20Software"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Included%20DJ%20Software"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.DJ%20Mixer%20Outputs"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.DJ%20Mixer%20Audio%20Type"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.DJ%20Mixer%20Effects"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.DJ%20Mixer%20Size"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.DJ%20Mixer%20Channels"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Cable%20Connectors"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Cable%20Length"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Woofer%20Size"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Speaker%20Configuration"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Speaker%20Power%20Output"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Bluetooth"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Cabinet%20Color"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Cabinet%20Material"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Power%20Amp%20Output"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Controller%20Pads"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Keyboard%20Keys"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Audio%20Engine"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Audio%20Interface%20Type"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Mixer%20Channels"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Mic%20Preamps"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Rack%20Spaces"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Stage%20Height"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Stage%20Finish"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+	<div class="ais-facet-conjunctive ais-facet-named_tags.Surface%20Area"></div><button type="button" class="more-btn" style="display: none">+ Show More</button>
+    
+	 
+   
+    
+    
+  </div>
+  <div class="ais-block">
+    <div class="ais-input">
+      <div class="ais-input--label">
+        [[ translations.search ]]
+      </div>
+      <div class="ais-search-box-container"></div>
+      <div class="ais-input-button">
+        <div class="ais-clear-input-icon"></div>
+        <a title="Search by Algolia - Click to know more" href="https://www.algolia.com/?utm_source=shopify&utm_medium=link&utm_campaign=instantsearch-[[ storeName ]]">
+          <div class="ais-algolia-icon"></div>
+        </a>
+      </div>
+    </div>
+    <div class="ais-search-header">
+      <div class="ais-stats-container"></div>
+      <div class="ais-change-display">
+        <span class="ais-change-display-block ais-change-display-selected"><i class="fa fa-th-large"></i></span>
+        <span class="ais-change-display-list"><i class="fa fa-th-list"></i></span>
+      </div>
+      <div class="ais-sort">
+        [[# multipleSortOrders ]]
+        [[ translations.sortBy ]] <span class="ais-sort-orders-container"></span>
+        [[/ multipleSortOrders ]]
+
+        [[^ multipleSortOrders ]]
+        [[ translations.sortBy ]] [[ translations.relevance ]]
+        [[/ multipleSortOrders ]]
+      </div>
+    </div>
+    <div class="ais-hits-container ais-results-as-block"></div>
+    <div class="ais-pagination-container"></div>
+  </div>
+  
+</div>

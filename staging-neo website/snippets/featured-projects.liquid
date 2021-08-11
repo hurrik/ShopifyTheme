@@ -1,0 +1,38 @@
+<div class="container about-features">
+  <div class="row holder">
+    <div class="col-12">
+      <h2 class="section__title heading h3">{{section.settings.heading_text}}</h2>
+      {% capture string_with_newlines %}{{section.settings.section_description}}{% endcapture %}
+      <p>{{ string_with_newlines | newline_to_br }}</p>
+      {% if rental%}<a class="mt" href="{{section.settings.button_link}}">{{section.settings.button_text}}</a>{% endif%}
+    </div>
+  </div>
+  <div class="row {% if rental%}mt{% endif%}">
+    {% for block in section.blocks%}
+    <div class="col-3">
+      <div class="holder">
+        <div class="img-holder">
+          <img data-src="{{block.settings.project_image | img_url:'grande'}}"  class=" ls-is-cached lazyloaded"  src="{{block.settings.project_image | img_url:'grande'}}">
+        </div>
+        <b>{{block.settings.project_heading}}</b>
+        <br>
+        {{block.settings.project_description}}
+        <br><br>
+        {% if block.settings.project_btn_text != '' %}
+       	 <a href="{{block.settings.project_link}}">{{block.settings.project_btn_text}}</a>
+       	{% endif%}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% if page.handle == 'about'%}
+  <div class="row">
+    <div class="col-12">
+      <div class="see-more-btn">
+        <a href="https://www.pssl.com/pages/pssl-systems-group-projects">See More Projects</a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  
+</div>

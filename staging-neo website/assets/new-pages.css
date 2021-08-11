@@ -1,0 +1,132 @@
+.about-banner{
+  position:relative;
+
+}
+.about-banner-text{
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left:50px;
+}
+.about-banner-text h2{
+  font-size:65px;
+  color:#fff;
+  text-transform: uppercase;
+}
+.about-text{
+  margin: 1.9em 0 .6em 0;
+}
+.solotech-heading{
+  font-size: 16px;
+  font-weight: 600;
+  color: #ee3d41;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.what-we-do-box{
+  background: url(https://cdn.shopify.com/s/files/1/0277/2631/5568/files/PSSL_ABOUT_What-we-do.jpg?v=1626342953) no-repeat;
+  background-size:cover;
+
+}
+.www-header-left{
+  padding: 1px 0 38px 20px;
+}
+.www-header-left h2{
+  color: #fff;
+  margin: 1.55em 0 .6em 0;
+  font-size: 29px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.www-header-left p{
+  font-size: 24px;
+  color:#fff;
+}
+.about-features b{
+  font-weight: 600;
+  color: #ee3d41;
+}
+
+.see-more-btn {
+  text-align:center;
+}
+
+
+
+.see-more-btn a{
+  padding: 8px 12px;
+  text-align: center;
+  color: #fff;
+  background: #be1d2c;
+  text-decoration: none;
+  font-size: 14px;
+}
+img{
+  width:100%;
+}
+
+@media screen and (max-width:576px){
+  .about-banner-text h2 {
+    font-size: 35px;
+      word-spacing: 200px;
+  }
+  .about-banner img{
+    min-height:175px;
+  }
+  .turnkey-col-12{
+  	width: 46% !important;
+  }
+}
+
+.mt{
+  margin-top:25px;
+}
+
+.system-integration-heading{
+	font-size: 18px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 0px;
+    text-transform: uppercase;
+}
+
+.content-center{
+	text-align:center;
+}
+.content-center img{
+	width: auto !important;
+}
+.img-margin{
+	margin-bottom:10px;
+}
+
+
+@media screen and (max-width:1024px) and (min-width:768px){
+  .about-rental-banner h2{
+    font-size: 42px;
+  }
+}
+
+@media screen and (max-width:767px) and (min-width:576x){
+  .about-rental-banner h2{
+    font-size: 33px;
+  }
+}
+
+@media screen and (max-width: 575px){
+  .about-rental-banner h2 {
+      word-spacing: inherit;
+  
+
+  }
+  .about-banner-text {
+    left: 28px;
+  }
+}
+@media screen and (max-width:575px){
+  .www-header-left p {
+      font-size: 20px;
+      color: #fff;
+  }
+}

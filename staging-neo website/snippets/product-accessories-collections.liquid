@@ -1,0 +1,32 @@
+{%- assign selected_variant = product.selected_or_first_available_variant -%}
+{%- assign relatedTag = "ACCESSORIES-" | append: selected_variant.sku -%}
+{%assign relatedCount = collections[relatedTag].products_count | plus:0%}
+{%if relatedCount > 0%}
+
+  <div class="section">
+    <div class="container">
+        <header class="section__header">
+          <h2 class="section__title heading h3">Accessories</h2>
+        </header>
+
+      <div class="product-accessories">
+
+          <div class="scroller">
+            <div class="scroller__inner">
+              <div class="product-list product-list--vertical product-list--scrollable">
+                  {%- for product in collections[relatedTag].products -%}
+                    {%- render 'product-item', product: product, grid_classes: '1/4--lap 1/5--desk 1/6--wide', show_add_to_cart: false -%}
+        
+                  {%- endfor -%}
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div style="clear: both;"></div><br><br>
+</div>
+
+{%endif%}
+
+
+

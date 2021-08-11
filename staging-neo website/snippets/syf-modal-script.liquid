@@ -1,0 +1,253 @@
+
+        {{ 'syf.css' | asset_url | stylesheet_tag}}
+                {% assign date = "now" | date: "%Y-%m-%d" %} 
+                {% assign hMAC = shop.domain | append: date | append: "pssl-store.myshopify.com" %}
+                {% assign my_secret_string = hMAC | hmac_sha256: "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" %}
+                
+                {% assign loggedIn = false %} 
+                {% if customer %}
+                    {% assign loggedIn = true %}
+                    {% assign first_name = customer.default_address.first_name %}
+                    {% assign last_name = customer.default_address.last_name %}
+                    {% assign address1 = customer.default_address.address1  %}
+                    {% assign address2 = customer.default_address.address2  %}
+                    {% assign city = customer.default_address.city  %}
+                    {% assign province = customer.default_address.province  %}
+                    {% assign country = customer.default_address.country  %}
+                    {% assign zip = customer.default_address.zip  %}
+                    {% assign province_code = customer.default_address.province_code  %}
+                {% else %}
+                    {% assign loggedIn = false %}
+                {% endif %}
+                
+                <script>
+                var loginCheck = "{{loggedIn}}";
+                var shop_url = window.location.hostname;
+                let gatewayURL = "https://shop.mysynchrony.com";
+                const shop_admin_url = "pssl-store.myshopify.com";
+                const app_version = "1.0.7";
+                var MERCHANT_FF_JS = "https://buy.syf.com/digitalbuy/js/merchant_ff.js";
+                var requestOptions = {
+                    method: 'GET',
+                };
+                var cartCount = '{{cart.item_count}}';
+                fetch('/cart/update.js', {
+                    method: "POST",
+                    body: JSON.stringify({ attributes: { "Synchrony Token ID": "" } }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                })
+                function loadScript(URL){
+                    var scriptElement = document.createElement("script");
+                    scriptElement.type = "text/javascript";
+                    scriptElement.async = false; 
+                    scriptElement.src = URL;
+                    document.head.appendChild(scriptElement); 
+                }
+                function setData(result){
+                    var startMinute = new Date().getMinutes();
+                    localStorage.setItem("SYF-Token-Expiry",new Date().setMinutes(startMinute+8));
+                    localStorage.setItem("SYF-Token-Data",JSON.stringify(result));
+                    document.getElementById("syftokenId").value = result.data.clientToken;
+                    document.getElementById("merchantID").value = result.merchantId;
+                    //document.getElementById("clientTransId").value = result.data.postbackid;
+                 }
+                async function syfButtonScript(){
+                    try{
+                        let result = null;
+                        // Using Session Storage to reduce the api app configuration 
+                        if(sessionStorage.getItem("app_configurations")){
+                            result = JSON.parse(sessionStorage.getItem("app_configurations"));
+                        }else{
+                         result = await( await(fetch("https://shop.mysynchrony.com/api/app_configurations/shop/"+shop_url+"?x_sign_token={{ my_secret_string }}&app_version="+app_version+"&admin_url="+shop_admin_url, requestOptions))).json();
+                         sessionStorage.setItem("app_configurations",JSON.stringify(result));
+                        }   
+                         if(result.sandboxFlag === "Y"){
+                                gatewayURL = "https://ushop.mysynchrony.com";
+                                MERCHANT_FF_JS = "https://ubuy.syf.com/digitalbuy/js/merchant_ff.js";
+                            }
+                        if(result.app_configurations !=null){
+                            var expiryTimeStamp;
+                            let currentTimeStamp = new Date();  
+                            if(localStorage.getItem("SYF-Token-Expiry")){
+                                expiryTimeStamp = JSON.parse(localStorage.getItem("SYF-Token-Expiry"));
+                            }else{
+                                localStorage.setItem("SYF-Token-Expiry",Date.now())
+                                expiryTimeStamp =JSON.parse(localStorage.getItem("SYF-Token-Expiry"));
+                            }
+                            expiryTimeStamp = new Date(expiryTimeStamp);
+                            if(expiryTimeStamp <= currentTimeStamp){
+                                    //api calling for the authetications
+                                    fetch(gatewayURL+"/api/authenticate/"+shop_url+"?x_sign_token={{ my_secret_string }}&app_version="+app_version+"&admin_url="+shop_admin_url, requestOptions)
+                                    .then(response => response.json())
+                                    .then(result =>  {
+                                        if(result.data != null){
+                                            setData(result);
+                                        } else{
+                                            console.log("data null"); 
+                                            if(document.getElementById('cartButtonTrigger')){
+                                                document.getElementById('cartButtonTrigger').style.display = 'none';
+                                            }
+                                        }   
+                                    })
+                                    .catch(error => {
+                                        if(document.getElementById('cartButtonTrigger')){
+                                            document.getElementById('cartButtonTrigger').style.display = 'none';
+                                            console.log('error in authentication api', error);
+                                        }
+                                    });
+                            }else{
+                                   let cache = JSON.parse(localStorage.getItem("SYF-Token-Data"));
+                                   document.getElementById("syftokenId").value = cache.data.clientToken;
+                                   document.getElementById("merchantID").value = cache.merchantId;
+                                   //document.getElementById("clientTransId").value = cache.data.postbackid;
+                            }
+                            //append button dynamic into the dbuy form
+                            var buttonAppend = document.getElementById("dbuyform1").insertAdjacentHTML("beforeEnd",`<button type="button" style="display:none"; id="cartButton" onclick="syfDBuy.calldBuyProcess(this.form)"><img id="cartButtonImage" src=${result.app_configurations.dbuy_cart_button_img_url} /></button>`);var synchronyButton = `<button type="button" id="cartButtonTrigger" class="cartButtonTrigger" title="${result.app_configurations.dbuy_cart_button_img_alt_text}"><img id="cartButtonImage" src=${result.app_configurations.dbuy_cart_button_img_url} alt="${result.app_configurations.dbuy_cart_button_img_alt_text}"/></button>`;//get the checkout button for append dbuy button
+                            let getName = document.getElementsByName("checkout");
+                            console.log(getName,"getName");
+                            if(getName != undefined){
+                                var classCheck = document.body.contains(document.getElementById("cartButtonTrigger"));
+                                console.log(classCheck,"classCheck");
+                                if(classCheck == false){
+                                    console.log("in classCheck");
+                                    getName.forEach(element=> {
+                                    console.log(element,"element"); 
+                                    element.insertAdjacentHTML('afterEnd', synchronyButton);
+                                    });	
+                                }
+                            }
+                            //on click event open the dbuy model1 & close shopify model
+                            var findClassName = document.getElementsByClassName('cartButtonTrigger');
+                            if(findClassName){
+                                for(let i = 0; i < findClassName.length; i++) {
+                                    findClassName[i].addEventListener("click", function() {
+                                        console.log("Clicked index: " + i);
+                                        document.getElementById("cartButton").click();
+                                        if(document.getElementById("ajaxifyModal")){
+                                            document.getElementById("ajaxifyModal").classList.remove("is-visible");
+                                        }
+                                    })
+                                }
+                            }
+                        } else{
+                            console.log("data null"); 
+                            if(document.getElementById('cartButtonTrigger')){
+                                document.getElementById('cartButtonTrigger').style.display = 'none';
+                                document.getElementById("cartButtonTrigger").style.padding = "0";
+                            }
+                            }
+                        }catch(error){
+                            console.log("Fetch App Config Error: ",error);
+                        }   
+
+                window.addEventListener("message",function(event) {
+                    if (typeof event.data == 'string' && (event.data == 'Close Model' ||
+                    event.data== 'Return To Merchant Shipping')) {
+                        if(document.getElementsByName('attributes[Checkout-Method]') && document.getElementsByName('attributes[Checkout-Method]').length !=0){
+                            var Pickup_Method = document.getElementsByName('attributes[Checkout-Method]')[0].value;
+                            console.log(Pickup_Method,"Pickup_Method");
+                        }
+                        if(document.getElementsByName('attributes[Pickup-Location-Company]') && document.getElementsByName('attributes[Pickup-Location-Company]').length !=0){
+                            var Pickup_Company = document.getElementsByName('attributes[Pickup-Location-Company]')[0].value;
+                            console.log(Pickup_Company,"Pickup_Company");
+                        }
+                        if(document.getElementsByName('attributes[Pickup-Location-Address-Line-1]') && document.getElementsByName('attributes[Pickup-Location-Address-Line-1]').length !=0){
+                            var Pickup_Address1 = document.getElementsByName('attributes[Pickup-Location-Address-Line-1]')[0].value;
+                            console.log(Pickup_Address1,"Pickup_Address1");
+                        }
+                        if(document.getElementsByName('attributes[Pickup-Location-Address-Line-2]') && document.getElementsByName('attributes[Pickup-Location-Address-Line-2]').length !=0){
+                            var Pickup_Address2 = document.getElementsByName('attributes[Pickup-Location-Address-Line-2]')[0].value;
+                            console.log(Pickup_Address2,"Pickup_Address2");
+                        }
+                        if(document.getElementsByName('attributes[Pickup-Location-City]') && document.getElementsByName('attributes[Pickup-Location-City]').length !=0){
+                            var Pickup_City = document.getElementsByName('attributes[Pickup-Location-City]')[0].value;
+                            console.log(Pickup_City,"Pickup_City");
+                        }
+                        if(document.getElementsByName('attributes[Pickup-Location-Region]') && document.getElementsByName('attributes[Pickup-Location-Region]').length !=0){
+                        var Pickup_State = document.getElementsByName('attributes[Pickup-Location-Region]')[0].value;
+                        console.log(Pickup_State,"Pickup_State");
+                        }
+                        if(document.getElementsByName('attributes[Pickup-Location-Postal-Code]') && document.getElementsByName('attributes[Pickup-Location-Postal-Code]').length !=0){
+                            var Pickup_Zip = document.getElementsByName('attributes[Pickup-Location-Postal-Code]')[0].value;
+                            console.log(Pickup_Zip,"Pickup_Zip");
+                        }
+                        if(document.getElementsByName('attributes[Pickup-Location-Country]') && document.getElementsByName('attributes[Pickup-Location-Country]').length !=0){
+                            var Pickup_Country = document.getElementsByName('attributes[Pickup-Location-Country]')[0].value;
+                            console.log(Pickup_Country,"Pickup_Country");
+                        }
+                    var userToken =  document.getElementById("syftokenId").value;
+                        console.log(userToken,"userToken");
+                        console.log('SYNCHRONY MODAL CLOSED', event);
+                        fetch(gatewayURL+"/api/status_inquiry/"+shop_url+"/"+userToken+"?x_sign_token={{ my_secret_string }}&app_version="+app_version+"&admin_url="+shop_admin_url, requestOptions)
+                        .then(response => response.json())
+                        .then(statusData => { console.log(statusData.StatusCode,"statusData");
+                            if(statusData.StatusCode == "400" || statusData.StatusCode == "404" || statusData.StatusCode == "100" || statusData.StatusCode== "503" || statusData.StatusCode== "500"){
+                                console.log("if");
+                                fetch(gatewayURL+"/api/authenticate/"+shop_url+"?x_sign_token={{ my_secret_string }}&app_version="+app_version+"&admin_url="+shop_admin_url, requestOptions)
+                                .then(response => response.json())
+                                .then(result =>  {
+                                if(result.data !=null){
+                                    setData(result);
+                                    document.getElementById("cartButtonTrigger").style.display = "inherit";
+                                } else{
+                                    document.getElementById("cartButtonTrigger").style.display = "none";
+                                    console.log("data null"); 
+                                }   
+                                })
+                                .catch(error => {
+                                    if(document.getElementById('cartButtonTrigger')){
+                                        document.getElementById('cartButtonTrigger').style.display = 'none';
+                                        console.log('error', error);
+                                    }
+                                });
+                            }else{
+                                console.log("else");
+                                var checkoutUrl = "https://"+shop_url+"/cart/";
+                                if (statusData.StatusCode == "002" || statusData.StatusCode == "003" || statusData.StatusCode == "00" || statusData.StatusCode == "21" || statusData.StatusCode == "22" || statusData.StatusCode == "24" || statusData.StatusCode == "25" || statusData.StatusCode == "26" || statusData.StatusCode == "27" || statusData.StatusCode == "28") {
+                                    console.log("in functions>>>>>",statusData);
+                                    const resObj = statusData;
+                                    fetch("/cart.js", requestOptions)
+                                    .then(response => response.json())
+                                    .then(cart =>  {
+                                    cart.items.forEach((value, index) => {if (index == 0) { checkoutUrl +=  `${value.id}:${value.quantity}`; } else {  checkoutUrl += `,${value.id}:${value.quantity}`; } }); if(Pickup_Method == "pickup"){  checkoutUrl += `?checkout[shipping_address][address1]=${Pickup_Address1}&checkout[shipping_address][address2]=${Pickup_Address2}&checkout[shipping_address][city]=${Pickup_City}&checkout[shipping_address][country]=${Pickup_Country}&checkout[shipping_address][province]=${Pickup_State}&checkout[shipping_address][zip]=${Pickup_Zip}&checkout[shipping_address][company]=${Pickup_Company}&checkout[different_billing_address]=false&checkout[billing_address][first_name]=${resObj.FirstName}&checkout[billing_address][last_name]=${resObj.LastName}&checkout[billing_address][address1]=${resObj.Address1}&checkout[billing_address][address2]=${resObj.Address2}&checkout[billing_address][city]=${resObj.City}&checkout[billing_address][country]=US&checkout[billing_address][province]=${resObj.State}&checkout[billing_address][zip]=${resObj.ZipCode}&attributes[Synchrony Token ID]=${userToken}`; console.log("pickup in",checkoutUrl);}else if (Pickup_Method == "shipping"){	checkoutUrl += `?checkout[shipping_address][first_name]=${resObj.FirstName}&checkout[shipping_address][last_name]=${resObj.LastName}&checkout[shipping_address][address1]=${resObj.Address1}&checkout[shipping_address][address2]=${resObj.Address2}&checkout[shipping_address][city]=${resObj.City}&checkout[shipping_address][country]=US&checkout[shipping_address][province]=${resObj.State}&checkout[shipping_address][zip]=${resObj.ZipCode}&checkout[billing_address][first_name]=${resObj.FirstName}&checkout[billing_address][last_name]=${resObj.LastName}&checkout[billing_address][address1]=${resObj.Address1}&checkout[billing_address][address2]=${resObj.Address2}&checkout[billing_address][city]=${resObj.City}&checkout[billing_address][country]=US&checkout[billing_address][province]=${resObj.State}&checkout[billing_address][zip]=${resObj.ZipCode}&attributes[Synchrony Token ID]=${userToken}`; console.log("shipping in",checkoutUrl); } else if (loginCheck == true || loginCheck == "true"){ checkoutUrl += `?checkout[shipping_address][first_name]={{first_name}}&checkout[shipping_address][last_name]={{last_name}}&checkout[shipping_address][address1]={{address1}}&checkout[shipping_address][address2]={{address2}}&checkout[shipping_address][city]={{city}}&checkout[shipping_address][country]=US&checkout[shipping_address][province]={{province}}&checkout[shipping_address][zip]={{zip}}&checkout[shipping_address][company]={{company}}&checkout[billing_address][first_name]=${resObj.FirstName}&checkout[billing_address][last_name]=${resObj.LastName}&checkout[billing_address][address1]=${resObj.Address1}&checkout[billing_address][address2]=${resObj.Address2}&checkout[billing_address][city]=${resObj.City}&checkout[billing_address][country]=US&checkout[billing_address][province]=${resObj.State}&checkout[billing_address][zip]=${resObj.ZipCode}&attributes[Synchrony Token ID]=${userToken}`;console.log("login in",checkoutUrl); }else{  checkoutUrl += `?checkout[shipping_address][first_name]=${resObj.FirstName}&checkout[shipping_address][last_name]=${resObj.LastName}&checkout[shipping_address][address1]=${resObj.Address1}&checkout[shipping_address][address2]=${resObj.Address2}&checkout[shipping_address][city]=${resObj.City}&checkout[shipping_address][country]=US&checkout[shipping_address][province]=${resObj.State}&checkout[shipping_address][zip]=${resObj.ZipCode}&checkout[billing_address][first_name]=${resObj.FirstName}&checkout[billing_address][last_name]=${resObj.LastName}&checkout[billing_address][address1]=${resObj.Address1}&checkout[billing_address][address2]=${resObj.Address2}&checkout[billing_address][city]=${resObj.City}&checkout[billing_address][country]=US&checkout[billing_address][province]=${resObj.State}&checkout[billing_address][zip]=${resObj.ZipCode}&attributes[Synchrony Token ID]=${userToken}`; console.log("else in",checkoutUrl); }  window.location.href = checkoutUrl; console.log(checkoutUrl,"checkoutUrl"); }); } }  }) .catch(error => console.log("error", error)); }});}
+
+                                    //cart drawer function 
+                                    function cartDrawer() {
+                                            console.log("cartDrawer function calling");
+                                            setTimeout(function(){
+                                                syfButtonScript();
+                                            }, 3000);
+                                        }
+                                    
+                                        var el_cartDrawer = document.querySelectorAll('.cart-toggle, .icon-cart, .btn--add-to-cart');
+                                        [...el_cartDrawer].forEach(e => e.onclick = cartDrawer)
+                                
+                                        //cart drawer quantity
+                                        document.addEventListener('click',function(e){
+                                            var el_cart = document.querySelectorAll('.icon-minus, .icon-plus, .fallback-text');
+                                                el_cart.forEach(element => {
+                                                element.setAttribute('aria-hidden', 'false');
+                                            });
+                                            if ( (" " + e.target.className + " ").replace(/[]/g, " ").indexOf("icon-plus") > -1 ) 
+                                                cartDrawer();
+                                            else if((" " + e.target.className + " ").replace(/[]/g, " ").indexOf("icon-minus") > -1){
+                                                cartDrawer();
+                                            }
+                                            else if((" " + e.target.className + " ").replace(/[]/g, " ").indexOf("fallback-text") > -1){
+                                                cartDrawer();
+                                            }
+                                            else if((" " + e.target.className + " ").replace(/[]/g, " ").indexOf("ajaxifyCart--add") > -1){
+                                                cartDrawer();
+                                            }
+                                            else if((" " + e.target.className + " ").replace(/[]/g, " ").indexOf("ajaxifyCart--minus") > -1){
+                                                cartDrawer();
+                                            }
+                                        });
+                                        async function execute(){ 
+                                            await syfButtonScript();
+                                            loadScript(MERCHANT_FF_JS);
+                                        } 
+                                        execute();
+                                    </script>

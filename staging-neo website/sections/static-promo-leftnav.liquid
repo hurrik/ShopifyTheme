@@ -1,0 +1,41 @@
+<section class="section" data-section-id="{{ section.id }}" data-section-type="promo-block">
+	<div class="left-banner-promo">
+  		<div class="ln-img-wrapper">
+  			<img src="https://cdn.shopify.com/s/files/1/0277/2631/5568/files/marketing_LN-KDD.jpg?v=1575487558">
+ 		</div>
+  		<div class="ln-img-wrapper">
+  			<img src="https://cdn.shopify.com/s/files/1/0277/2631/5568/files/marketing_LN-ReviewsGiveaway.jpg?v=1575487558">
+  		</div>
+  		<div class="ln-img-wrapper">
+  			<img src="https://cdn.shopify.com/s/files/1/0277/2631/5568/files/marketing_LN-ReviewsGiveaway.jpg?v=1575487558">
+  		</div>
+    	<div class="ln-img-wrapper">
+  			<img src="https://cdn.shopify.com/s/files/1/0277/2631/5568/files/marketing_LN-ReviewsGiveaway.jpg?v=1575487558">
+  		</div>
+	</div>
+</section>
+{% schema %}
+  {
+    "name": "Promotion Left Nav",
+    "settings": [],
+	"blocks": [
+		{
+ 	  		"type": "item",
+      		"name": "Item",
+      		"settings":[
+					{
+		  			"type": "image_picker",
+          			"id": "image",
+          			"label": "Image"
+				}
+				]
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

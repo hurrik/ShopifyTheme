@@ -1,0 +1,35 @@
+{% for collection in product.collections %}
+	{% if collection.title == 'Lighting' %}
+       <div class="global-banner">
+			<a href="/products/usb-to-dmx-interface-w-lighting-control-software" target="_blank"><img data-src="https://cdn.shopify.com/s/files/1/0277/2631/5568/files/FreeUSB_1.jpg" class="lazyload"></a>
+		</div>
+		<div class="global-banner-mobile">
+			<a href="/products/usb-to-dmx-interface-w-lighting-control-software" target="_blank"><img data-src="//cdn.shopify.com/s/files/1/0277/2631/5568/files/Mobile-FreeLighting.jpg" class="lazyload"></a>
+		</div>
+       {% break %}
+       {% elsif collection.title == 'DJ' or collection.title == 'PA' %}
+		<div class="global-banner">
+			<a href="/products/american-audio-vps-60-dynamic-handheld-microphone" target="_blank"><img data-src="//cdn.shopify.com/s/files/1/0277/2631/5568/files/FreeMic.jpg" class="lazyload"></a>
+		</div>
+		<div class="global-banner-mobile">
+			<a href="/products/american-audio-vps-60-dynamic-handheld-microphone" target="_blank"><img data-src="//cdn.shopify.com/s/files/1/0277/2631/5568/files/Mobile-FreeDJ.jpeg" class="lazyload"></a>
+		</div>
+       {% break %}
+	   {% elsif collection.title == 'Studio'%}
+		<div class="global-banner">
+  			<a href="/products/solena-professional-sp-300-monitor-stand-pair" target="_blank"><img data-src="//cdn.shopify.com/s/files/1/0277/2631/5568/files/FreeStands.jpg" class="lazyload"></a>
+		</div>
+		<div class="global-banner-mobile">
+  			<a href="/products/solena-professional-sp-300-monitor-stand-pair" target="_blank"><img data-src="//cdn.shopify.com/s/files/1/0277/2631/5568/files/Mobile-FreeStudio.jpg" class="lazyload"></a>
+		</div>
+       {% break %}
+	   {% elsif collection.title contains 'Truss'%}
+		<div class="global-banner">
+  			<a href="/products/eliminator-mini-par-rgbw-led-12-x-1-watt-rgbw-led-light" target="_blank"><img data-src="//cdn.shopify.com/s/files/1/0277/2631/5568/files/FreePar.jpg" class="lazyload"></a>
+		</div>
+		<div class="global-banner-mobile">
+			<a href="/products/eliminator-mini-par-rgbw-led-12-x-1-watt-rgbw-led-light" target="_blank"><img data-src="//cdn.shopify.com/s/files/1/0277/2631/5568/files/Mobile-FreeTruss.jpg" class="lazyload"></a>
+		</div>
+       {% break %}
+    {% endif %}
+{% endfor %}

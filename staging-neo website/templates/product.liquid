@@ -1,0 +1,61 @@
+{%- comment -%}
+If the product contains the special __gift tag, we prevent it to be completely accessible by redirecting to the home page
+{%- endcomment -%}
+
+{%- if product.tags contains '__gift' -%}
+  <script>
+    window.location.href = '/';
+  </script>
+{%- else -%}
+
+  {% section 'product-template' %}
+  {% section 'product-recommendations' %}
+  {% section 'static-promotion-list' %}
+  {% section 'static-recently-viewed-products' %}
+{%- endif -%}
+ 
+   <script type="text/javascript">
+        	// cps_dealer_key
+        	var cps_dealer_key = '2311';
+        	// cps_item_id
+        	var cps_item_id = '{{ product.id }}';
+        	// cps_category1
+        	var cps_category1 = '{{ product.type | replace: "'", "" }}'
+        	// cps_item_model      	           
+        	var cps_item_model = '{{ product.title | replace: "'", "" | replace: "-", ""}}'
+        	// cps_item_url
+        	var cps_item_url = '{{ product.url }}';               	
+        	// cps_current_variant
+        	var cps_current_variant = '{{ current_variant.id }}';
+        	// cps_site_version
+        	var cps_site_url = window.location.href;
+ 
+        	// cps_item_tags
+        	var cps_item_tags = []
+        	{% for tag in product.tags %}
+              cps_item_tags.push('{{ tag | replace: "'", "" }}');
+                                            	{% endfor %}
+            cps_item_tags=cps_item_tags.toString()
+ 
+        	// cps_item_options
+        	var cps_item_options = []
+        	{% for option in product.options %}
+              cps_item_options.push('{{ option }}');
+                                            	{% endfor %}
+                                            	cps_item_options=cps_item_options.toString()
+          	
+        	// cps_product_variants
+        	var cps_product_variants = []
+        	{% for variant in product.variants %}
+            cps_product_variants.push ({
+          	key: '{{ variant.id }}',
+          	value: {"price":'{{ variant.price }}',"sku":'{{ variant.sku }}'}
+        	});
+{% endfor %}
+        	               	
+  ///////// Shopify Code ends here, all rest is on our side /////////////
+      //<script type="text/javascript" src="https://www.cpscentral.com/admside/js/CPS_Integrations/Shopify/vendor_product_warranty_shopify_2311.js"></script>
+</script>
+       
+
+{% render 'product_infox' %}

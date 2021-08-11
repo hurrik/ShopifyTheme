@@ -1,0 +1,42 @@
+<div class="about-banner">
+  <img src="{{section.settings.section_banner | img_url: 'grande'}}" alt="PSSL_ABOUT_Header.jpg">
+  <div class="about-banner-text">
+    <h2>{{section.settings.banner_text}}</h2>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="about-text">
+        {{section.settings.section_description}} 
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+    "name": "About Banner",
+    "settings": [{
+        "type": "image_picker",
+        "id": "section_banner",
+        "label": "Banner Image"
+    }, {
+        "type": "text",
+        "id": "banner_text",
+        "label": "Banner Text",
+        "default": "Banner Text"
+    }, {
+        "type": "textarea",
+        "id": "section_description",
+        "label": "Description",
+        "default": "Lorem Ipsum "
+    }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,85 @@
+.rte img {
+ 	margin: 0; 
+}
+.sg-header { 
+	background: url('https://cdn.shopify.com/s/files/1/0277/2631/5568/files/Home-Hero.jpg?902') no-repeat;
+    background-size: 100% auto;
+  	color: #ffffff;
+}
+
+.sg-header.wwd {
+ 	background: url('https://cdn.shopify.com/s/files/1/0277/2631/5568/files/WhatWeDo-Hero.jpg?951') no-repeat;
+  	background-size: 100% auto;
+}
+.sg-header.gsa {
+	background: url("https://cdn.shopify.com/s/files/1/0277/2631/5568/files/GSA-Hero.jpg?1008") no-repeat;
+  	background-size: 100% auto;
+}
+.sg-header.gp {
+ 	background: url("https://cdn.shopify.com/s/files/1/0277/2631/5568/files/Projects-Hero.jpg?1046") no-repeat;
+  	background-size: 100% auto;
+}
+
+.sg-header.tsh {
+ 	background: url("https://cdn.shopify.com/s/files/1/0277/2631/5568/files/tradeshow-Hero.jpg?1056") no-repeat;
+  	background-size: 100% auto;
+}
+.sg-header.gec {
+	background: url("https://cdn.shopify.com/s/files/1/0277/2631/5568/files/SG_Gov-Hero.jpg?1080") no-repeat;
+  	background-size: 100% auto;
+}
+.sg-header h2 {
+ 	 color: #ffffff;
+}
+
+.sg-header-left {
+ 	padding: 40px 0 40px 20px;	 
+}
+.sg-header-right {
+	float: right;
+  	right: 0;
+  	padding: 40px 20px 40px 0;
+  	text-align: right;
+}
+.fp-img {
+	margin-bottom: 20px;
+}
+.wwd-img {
+
+  	margin-bottom: 20px;
+
+}
+.wwd-img > img {
+ 	width: 100%;
+  	height: auto; 
+}
+.clear {
+ 	clear: both; 
+}
+.sub-header {
+	padding: 14px 20px !important; 
+}
+.header-section {
+	background-color: #000;
+}
+.brand-logos {
+	display: grid;
+  	grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+  	text-align: center;
+}
+.rte .brand-logos img { display: inline-block}
+@media only screen and (min-width: 800px) { 
+  .brand-logos {
+  	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+	}
+  .brand-logos .col-2 {
+    width: 100%;
+  }
+  .brand-logos img { width: 150px; height: auto; }
+}
+@media only screen and (max-width: 1249px) { 
+  .sg-header {
+  	background-size: cover !important;
+  }
+}

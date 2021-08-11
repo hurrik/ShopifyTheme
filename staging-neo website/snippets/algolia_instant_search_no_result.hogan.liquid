@@ -1,0 +1,46 @@
+<div class="ais-hit-empty">
+  <div class="ais-hit-empty--title"><h1>Sorry, no results found.</h1></div>
+  <div class="ais-hit-empty--clears">
+    <p>Try another search term or use the navigation below:</p>
+      
+
+    
+      <form class="empty-state__quick-form" action="{{ routes.search_url }}" method="get">
+        <input type="hidden" name="type" value="product">
+
+        <div class="form__connected-item">
+          <div class="form__input-wrapper form__input-wrapper--labelled">
+            <input id="4O4-search" type="text" class="form__field form__field--text" name="q" autocomplete="off" autocorrect="off">
+            <label for="4O4-search" class="form__floating-label">{{ '404.general.search' | t }}</label>
+          </div>
+
+          <button type="submit" class="form__connection button button--primary" aria-label="{{ '404.general.search' | t }}">{% render 'icon', icon: 'search' %}</button>
+        </div>
+      </form>
+    
+    
+    <div class="top-catagories">
+      <h2>Top Categories</h2>
+      <div class="row">
+        <div class="col-1"></div>
+        <div class="col-2">
+          <a href="/collections/dj">DJ Gear</a>
+        </div>
+        <div class="col-2">
+          <a href="/collections/studio">Studio & Recording</a>
+        </div>
+        <div class="col-2">
+          <a href="https://www.pssl.com/collections/pa">Pro Audio</a>
+        </div>
+        <div class="col-2">
+          <a href="/pages/cable-snakes-and-adapters">Cable, Snakes & Adapters</a>
+        </div>
+        <div class="col-2">
+          <a href="/collections/lighting">Lighting</a>
+        </div>
+         <div class="col-1"></div>
+      </div>
+    	
+    </div>
+      
+  </div>

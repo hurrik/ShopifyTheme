@@ -1,0 +1,81 @@
+<style>
+        #kit-components{
+          display: none;
+          width: 100%;
+          box-sizing: border-box;
+        }
+        #kit-components-title{
+          color: #000000;
+        }
+        #kit-components-skus{
+          
+        }
+        #kit-components-skus a{
+          color: #336699;
+        }
+      </style>
+	{%- assign selected_kitvariant = product.selected_or_first_available_variant -%}
+	{%assign componentRawSkus = ""%}
+	
+      	{% assign components = selected_kitvariant.metafields.bcs.BCS_components | split: ',' %}
+		{% assign skuCount = 0%}
+      	{%assign componentSkus = "" %}
+      	{%assign componentQtys = "" %}
+		
+      	{% for component in components %}
+			
+      		{% assign componentData = component | split: '|' %}
+      		{%assign componentSkus = componentSkus | append: "sku:" | append: componentData[1]%}
+          
+			{%assign componentRawSkus = componentRawSkus | append: componentData[1]%}
+			{%unless forloop.last%}
+            {%assign componentSkus = componentSkus | append: " OR "%}
+			{%assign componentRawSkus = componentRawSkus | append: ","%}
+          {%endunless%} 
+      		{% assign skuCount = skuCount | plus: 1 %}
+      {% endfor %}
+      {%assign gqlQuery = '{productVariants(first: ' | append: skuCount | append: ', query: "' | append: componentSkus | append: '") {edges {node {sku product{title onlineStoreUrl onlineStorePreviewUrl }}}}}' %}
+
+{%if componentRawSkus != ""%}      
+<script>
+		var jsonData = '{{ gqlQuery}}';
+        var componentData =  fetch('https://connector.nc-1.com/shopify/gql.aspx?skus={{componentRawSkus}}', {
+        method: 'GET'
+      }).then(function(res){ return res.json(); })
+		.then(function(data){ 
+         // alert(JSON.stringify(data));
+        	var edges = data.data.productVariants.edges; 
+          componentHtml = "";
+          if(edges.length > 0){
+            var components = "{{selected_kitvariant.metafields.bcs.BCS_components}}";
+            components = components.split(",");
+            for(i=0;i<edges.length;i++){
+              componentHtml += "&bull; ";
+              for(k=0;k<components.length;k++){
+                var componentQty = components[k].split("|")[0];
+                var componentSku = components[k].split("|")[1];
+                if(edges[i].node.sku == componentSku){
+                  componentHtml += componentQty + " x ";
+                }
+              }
+              var prodUrl = "";
+              if(edges[i].node.product.onlineStoreUrl != null){
+                prodUrl = edges[i].node.product.onlineStoreUrl;
+              }else{
+                prodUrl = edges[i].node.product.onlineStorePreviewUrl;
+              }
+				componentHtml += "<a href='" + prodUrl + "'>" + edges[i].node.product.title + "</a><br>";
+             
+            }
+            document.getElementById("kit-components-skus").innerHTML = componentHtml;
+            document.getElementById("kit-components").style.display = "block";
+          }
+                            
+        });
+      </script>
+        <div id="kit-components" class="card__section">
+          <div id="kit-components-title">Package Includes (Click links for individual product info):</div>
+          <div id="kit-components-skus"></div>
+        </div>
+
+{%endif%}

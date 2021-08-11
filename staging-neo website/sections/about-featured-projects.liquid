@@ -1,0 +1,62 @@
+{% render 'featured-projects', sections:section,rental:false%}
+
+
+{% schema %}
+{
+    "name": "Featured Projects",
+    "settings": [{
+        "type": "text",
+        "id": "heading_text",
+        "label": "Heading",
+        "default": "Quick links"
+    }, {
+        "type": "html",
+        "id": "section_description",
+        "label": "Description",
+        "default": "Lorem Ipsum "
+    }, {
+        "type": "text",
+        "id": "button_text",
+        "label": "Botton Text",
+        "default": "Hello"
+    }, {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+    }],
+    "blocks": [{
+        "type": "select",
+        "name": "FEATURED PROJECTS",
+        "settings": [{
+            "type": "text",
+            "id": "project_heading",
+            "label": "Projecct Heading",
+            "default": "GSA/AFNAF/Federal"
+        }, {
+            "type": "image_picker",
+            "id": "project_image",
+            "label": "Project Image"
+        }, {
+            "type": "textarea",
+            "id": "project_description",
+            "label": "Project Description",
+            "default": "Lorem Ipsum text"
+        }, {
+            "id": "project_link",
+            "type": "url",
+            "label": "Learn More"
+        }, {
+            "id": "project_btn_text",
+            "type": "text",
+            "label": "Button text",
+            "default": "Lorem Iprum"
+        }]
+    }]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,150 @@
+<style>
+ #accessories{
+    width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      display: none;
+  }
+#accessories #accessories-products{
+    width: 100%;
+      box-sizing: border-box;
+  }
+  #accessories .product-box{
+      background-color: #FFFFFF;
+      border: 1px solid #A4A4A4;
+      color: inherit;
+      display: block;
+      float: left;
+      font-size: 12px;
+    line-height: 12px;
+      margin: 0 1% 1% 0;
+      padding: 6px;
+      text-decoration: none;
+    cursor: pointer;
+    width: 32.33%;
+	min-height: 100px;
+
+  }
+  #accessories .product-box .acc-image{
+    display: inline-block;
+    width: 30%;
+    vertical-align: top;
+    padding: 0 15px 0 0;
+  }
+  #accessories .product-box .acc-image img{
+    /*width: 100%;*/
+    max-height: 80px;
+  }
+  #accessories .product-box .acc-info{
+    display: inline-block;
+    width: 70%;
+  }
+  #accessories .product-box .acc-info .acc-info-title{
+    color: #336699;
+    font-size: 11px;
+    
+  }
+  #accessories .product-box .acc-info  .acc-info-price{
+    color: #BF1E2E;
+    font-size: 14px;
+  }
+  #accessories .title {
+      font-size: 14px;
+      font-weight: bold;
+  }
+  </style>
+{%- assign selected_accvariant = product.selected_or_first_available_variant -%}
+  {% assign accessories = selected_accvariant.metafields.bcs.BCS_accessories | split: ',' %}
+  {% assign skuCount = 0%}
+  {%assign accessoriesSkus = "" %}
+{% for accessory in accessories %}
+	{%assign cleanSku = accessory | strip%}
+	{%assign accessoriesSkus = accessoriesSkus | append: "sku:" | append: cleanSku %}
+	{%unless forloop.last%}
+	{%assign accessoriesSkus = accessoriesSkus | append: " OR "%}
+
+{%endunless%} 
+	{% assign skuCount = skuCount | plus: 1 %}
+{% endfor %}
+
+
+{%if accessoriesSkus != ""%}
+<script>
+window.accesories_get=[];
+  function GenerateAccesoriesHtml(){
+    var edges = window.accesories_get;
+    var optionsHtml = "";
+    if(edges.length > 0){
+      for(i=0;i< edges.length;i++){
+        var product = edges[i];
+        
+        if(product.BCS_nosearch != 'Y'){
+          var prodUrl = product.onlineStoreUrl;
+          var shortTitle = product.title.toString();
+          optionsHtml += "<div onclick=\"document.location.href='" + prodUrl + "'\" class=\"product-box\">";
+          optionsHtml += "<div class=\"acc-image\"><img src=\"" + product.thumb + "\"></div>";
+          optionsHtml += "<div class=\"acc-info\"><span class=\"acc-info-title\">" + shortTitle + "</span><br><br><span class=\"acc-info-price\">" + product.price + "</span></div>";
+          optionsHtml += "</div>";
+        }
+      };
+      document.getElementById("accessories-products").innerHTML = optionsHtml + "<div style=\"clear: both;\"></div>";
+      document.getElementById("accessories").style.display = "block";
+      document.getElementById("acceories-card").style.display = "block";
+
+      
+    }
+  }
+  
+  var skuList={};
+  
+  window.DisplayAccesories = function(accesories){
+    Shopify.queue = accesories;
+    Shopify.moveAlong = function() {
+      if (Shopify.queue.length) {
+        var request = Shopify.queue.shift();
+        $.ajax({
+          type: 'GET',
+          url:'/search',
+          data:{type:'product',q:request,view:'json'},
+          dataType: 'json',
+          success: function(res){
+            skuList[request] = [];
+            for(i=0;i< res.products.length;i++){
+              var product = res.products[i];
+              if(product.skus.split(',').indexOf(request)>=0 ){
+                skuList[request].push(product);
+                window.accesories_get.push(product);
+              }
+            }
+//             console.log(skuList);
+//             window.accesories_get.push(res.products[0]);
+            Shopify.moveAlong();
+          },
+          error: function(){
+            if (Shopify.queue.length){
+              Shopify.moveAlong()
+            } else {
+              GenerateAccesoriesHtml();
+            }
+          }
+        });
+      }else {
+        GenerateAccesoriesHtml();
+      }
+    };
+    Shopify.moveAlong();
+  };
+  var accesories = '{{selected_accvariant.metafields.bcs.BCS_accessories | split: ','}}'.split(' ');
+  window.DisplayAccesories(accesories);
+</script>
+<div class="card" id="acceories-card" style="display:none;">
+  <div class="card__section">
+    <div id="accessories">
+      <div id="accessories-title"><h3>Accessories</h3></div>
+      <div id="accessories-products"></div>
+      <div style="clear: both;"></div>
+    </div>
+  </div>
+</div>
+{%endif%}
+

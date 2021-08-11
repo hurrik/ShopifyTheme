@@ -1,0 +1,812 @@
+{%- capture section_settings -%}
+{
+  "showShippingEstimator": {% if template == 'product.quick-view' or product.available == false %}false{% else %}{{ section.settings.show_shipping_estimator | json }}{% endif %},
+  "showQuantitySelector": {{ section.settings.show_quantity_selector | json }},
+  "showPaymentButton": {{ section.settings.show_payment_button | json }},
+  "showInventoryQuantity": {% if product.template_suffix != 'pre-order' %}{{ section.settings.show_inventory_quantity | json }}{% else %}false{% endif %},
+  "lowInventoryThreshold": {{ section.settings.low_inventory_threshold | json }},
+  "galleryTransitionEffect": {{ section.settings.carousel_effect | json }},
+  "enableImageZoom": {% if template == 'product.quick-view' %}false{% else %}{{ section.settings.enable_image_zoom | json }}{% endif %},
+  "zoomEffect": {{ section.settings.zoom_effect | json }},
+  "productOptions": {{ product.options | json | escape }},
+  "enableHistoryState": {% if template == 'product.quick-view' %}false{% else %}true{% endif %},
+  "infoOverflowScroll": {% if template == 'product.quick-view' %}false{% else %}true{% endif %},
+  "isQuickView": {% if template == 'product.quick-view' %}true{% else %}false{% endif %}
+}
+{%- endcapture -%}
+<section data-section-id="{{ section.id }}" data-section-type="product" data-section-settings='{{ section_settings }}'>
+  {%- assign todayDate = "now" | date: "%m-%d-%Y"-%}
+  {%- assign kddtag = "kdd-" | append: todayDate -%}
+  {%- for tag in product.tags  -%}
+  	{%- if tag contains kddtag -%}
+     <div style="text-align: center; background: #005F9C; width: 100%">
+       <a href="/pages/email-preference"><img data-src="https://cdn.shopify.com/s/files/1/0277/2631/5568/files/kddbannerleft.png" class="lazyload"></a>
+       </div>
+  	 <div style="background: #104F7A; padding: 6px 0; text-align: center"><a href="https://www.pssl.com/collections/sale" style="color: white; text-decoration: none; font-weight: 700">Click Here to See More Killer Deals!</a></div>
+  	{%- endif -%}
+  {%- endfor -%}
+  
+  {%- if template != 'product.quick-view' -%}
+    <div class="container container--flush">
+      <div class="page__sub-header">
+        <nav aria-label="{{ 'general.breadcrumb.title' | t }}" class="breadcrumb">
+          <ol class="breadcrumb__list">
+            <li class="breadcrumb__item">
+              <a class="breadcrumb__link link" href="{{ routes.root_url }}">{{ 'general.breadcrumb.home' | t }}</a> {%- render 'icon', icon: 'arrow-right' -%}
+            </li>
+
+            
+              {% if collection.url %}
+              <li class="breadcrumb__item">
+                <a class="breadcrumb__link link" href="{{ collection.url }}">{{ collection.title }}</a> {%- render 'icon', icon: 'arrow-right' -%}
+               </li>
+            {% else %}
+			{% for pcs in product.collections %}
+              {% assign primary_collection = pcs.metafields.global.primary_collection %}
+              {% if primary_collection and primary_collection == 'Y'%}
+              <li class="breadcrumb__item">
+                  <a class="breadcrumb__link link" href="{{ pcs.url }}">{{pcs.title}}</a>
+                  <svg class="icon icon--arrow-right" viewBox="0 0 8 12">
+                    <path stroke="currentColor" stroke-width="2" d="M2 2l4 4-4 4" fill="none" stroke-linecap="square"></path>
+                  </svg>
+                </li>
+              {% endif %}
+            {% endfor %}
+            {% endif %}
+            
+
+            <li class="breadcrumb__item">
+              <span class="breadcrumb__link" aria-current="page">{{ product.title | truncate: 40 }}</span>
+            </li>
+          </ol>
+        </nav>
+
+        {%- if collection.previous_product or collection.next_product -%}
+          <div class="page__navigation">
+            {%- if collection.previous_product -%}
+              <span class="page__navigation-item page__navigation-item--prev">
+                <a href="{{ collection.previous_product.url }}" class="link" rel="prev">{%- render 'icon', icon: 'arrow-left' -%} {{- 'product.general.previous_product' | t -}}</a>
+              </span>
+            {%- endif -%}
+
+            {%- if collection.next_product -%}
+              <span class="page__navigation-item page__navigation-item--next">
+                <a href="{{ collection.next_product.url }}" class="link" rel="next">{{- 'product.general.next_product' | t -}} {%- render 'icon', icon: 'arrow-right' -%}</a>
+              </span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+  
+
+      </div>
+      <div><div class="TurnToReviewsTeaser"></div></div>
+      <div class="product-block-list product-block-list--{{ section.settings.image_size }}">
+        <div class="product-block-list__wrapper">
+          <div class="pdp-badges">
+          {%- for tag in product.tags  -%}
+  				{%- if tag contains 'Sale' -%}
+          			<span class="pdp-sale-tag"><img src="//cdn.shopify.com/s/files/1/0277/2631/5568/files/Sale_67829bd4-58db-403d-a190-074c51615ef6.png"></span>
+                {%- endif -%}
+  		  {%- endfor -%}
+          
+          {%- for tag in product.tags  -%}
+  				{%- if tag contains 'Rebate' -%}
+          			{%- assign rebateText =  tag | remove: 'Rebate:' -%}
+          			<span class="pdp-rebate-msg">{{ rebateText }}</span>
+                {%- endif -%}
+  		  {%- endfor -%}
+            
+           
+          
+          </div>
+          {%- if product.images.size > 0 -%}
+            <div class="product-block-list__item product-block-list__item--gallery">
+              {%- render 'product-gallery' -%}     
+              
+            </div>
+          	{%- else -%}
+          <div class="no-image">
+          	<img src="//cdn.shopify.com/s/files/1/0277/2631/5568/files/no-image.jpg" alt="PSSL no image" height="500" width="500">
+          </div>
+          {%- endif -%}
+           {%- for collection in product.collections -%}
+            	{%- if collection.title contains 'New Products' -%}
+            		<div class="pdp-newtag"></div>
+                    <script>
+                      window.onload = function() {
+  							checkImg();
+						};
+          				
+          			</script>
+            	{%-	endif -%}
+           {%- endfor -%}
+          
+          
+
+          <div class="product-block-list__item product-block-list__item--info">
+            {%- render 'product-info' -%}
+            
+          </div>
+
+          {%- if product.description != blank -%}
+            <div class="product-block-list__item product-block-list__item--description">
+              <div class="card">
+               
+                {%- if section.settings.collapse_content -%}
+                  <button class="card__collapsible-button" data-action="toggle-collapsible" aria-expanded="false" aria-controls="product-description">
+                    <span class="card__title heading h3">{{ 'product.general.description' | t }}</span>
+                    <span class="plus-button plus-button--large"></span>
+                  </button>
+
+                  <div id="product-description" class="card__collapsible">
+                    <div class="card__collapsible-content">
+                     <div class="rte text--pull">
+                       <div class='geotargetlygeocontent1581554864724_content_1' style='display:none;'>
+							
+                				{%- for variant in product.variants limit:1 -%}  
+                				{%- assign onhand = variant.inventory_quantity | floor -%}
+                        		{%- assign status = variant.metafields.bcs["BCS_itemstatus"] -%}
+                            		{%- if onhand > 0 -%}
+                        				{%- if status == "T2" or "G3" -%}
+                         				    <div class="nearStoreMsg"><a href="/pages/locals" target="_blank">We see you're near our Westminster Showroom - Call or visit us.<br> Click for details and showroom hours</a></div>
+											{%- else -%}
+                        					<div class="nearStoreMsg"><a href="/pages/locals" target="_blank">We see you're near our Westminster Showroom - Want it today? Call or visit us.<br> Click for details and showroom hours</a></div>
+                        				{%- endif -%}
+                        			{%- endif -%}
+                    			{%- endfor -%}
+                    		
+			  			</div>
+                       <div class='geotargetlygeocontent1581554864724_content_2' style='display:none;'>
+                         <div class="nearStoreMsg">We see you're near our warehouse - Get Next Business Day Delivery on Most Orders</div>
+					   </div>
+                       
+                        {{ product.description | remove: 'data-section-type="product"' }}
+                      </div>
+                    </div>
+                    
+                  </div>
+                {%- else -%}
+                  <div class="card__header">
+                    <!--<h2 class="card__title heading h3">{{ 'product.general.description' | t }}</h2>-->
+                  </div>
+
+                  <div class="card__section expandable-content" aria-expanded="false">
+                    <div class="rte text--pull">
+                      <div class='geotargetlygeocontent1581554864724_content_1' style='display:none;'>
+							{%- for variant in product.variants limit:1 -%}  
+                				{%- assign onhand = variant.inventory_quantity | floor -%}
+                        		{%- assign status = variant.metafields.bcs["BCS_itemstatus"] -%}
+                            		{%- if onhand > 0 -%}
+                        				{%- if status == "T2" or "G3" -%}
+                         				    <div class="nearStoreMsg"><a href="/pages/locals" target="_blank">We see you're near our Westminster Showroom - Call or visit us.<br> Click for details and showroom hours</a></div>
+											{%- else -%}
+                        					<div class="nearStoreMsg"><a href="/pages/locals" target="_blank">We see you're near our Westminster Showroom - Want it today? Call or visit us.<br> Click for details and showroom hours</a></div>
+                        				{%- endif -%}
+                        			{%- endif -%}
+                    		{%- endfor -%}
+			  			</div>
+                      <div class='geotargetlygeocontent1581554864724_content_2' style='display:none;'>
+                         <div class="nearStoreMsg">We see you're near our warehouse - Get Next Business Day Delivery on Most Orders</div>
+					   </div>
+                      {{ product.description | remove: 'data-section-type="product"' }}
+ 
+                      
+                    </div>
+
+                    <button class="expandable-content__toggle">
+                      <span class="expandable-content__toggle-icon"></span>
+                      <span class="expandable-content__toggle-text" data-view-more="{{ 'product.general.view_more' | t | escape }}" data-view-less="{{ 'product.general.view_less' | t | escape }}">{{- 'product.general.view_more' | t -}}</span>
+                    </button>
+                    
+                  </div>
+                {%- endif -%}
+                {% render 'kit-components' %}
+              </div>
+              
+            </div>
+          {%- endif -%}
+          {%assign hasManual = false%}
+          {%- for tag in product.tags  -%}
+          {%- if tag contains 'manual' -%}
+          	{%assign hasManual = true%}
+          {%- endif -%}
+          {%- endfor -%}
+          {%if hasManual == true%}
+          	{%- assign selected_manualVariant = product.selected_or_first_available_variant -%}
+          	{%assign manualFileName = selected_manualVariant.sku | append: '.pdf'%}
+          	{%assign manualShortTitle = ""%}
+            <div class="card" id="sku-manual">
+              <div class="card__section">
+                {%if manualShortTitle == ""%}
+                  {%assign manualShortTitle = product.title%}
+                {%endif%}
+                <img src="https://cdn.shopify.com/s/files/1/0277/2631/5568/files/pdf.gif?v=1583161618">
+                <a style="vertical-align: middle;line-height: 34px;" href="{{ manualFileName | file_url }}" target="_blank">Manual for {{ manualShortTitle }}</a>
+
+              </div>
+            </div>
+          {%- endif -%}
+          <script>
+            /*
+          var skuMmanual =  fetch('{{ manualFileName | file_url }}')
+          .then((response) => {
+            if (response.status == 200) {
+              console.log("Found manual");
+              document.getElementById("sku-manual").style.display = "block";
+            }else{
+              console.log("Could not find manual"); 
+            }
+
+          });
+          */
+          </script>
+
+          {%- comment -%}
+          --------------------------------------------------------------------------------------
+          TABS
+          --------------------------------------------------------------------------------------
+          {%- endcomment -%}
+
+          {%- for i in (1..3) -%}
+            {%- assign global_tab_option = 'tab_page_' | append: i | append: '_handle' -%}
+            {%- assign global_tab_page = pages[section.settings[global_tab_option]] -%}
+
+            {%- unless global_tab_page.empty? -%}
+              <div class="product-block-list__item product-block-list__item--content">
+                <div class="card">
+                  {%- if section.settings.collapse_content -%}
+                    <button class="card__collapsible-button" data-action="toggle-collapsible" aria-expanded="false" aria-controls="global-tab-{{ i }}">
+                      <span class="card__title heading h3">{{ global_tab_page.title }}</span>
+                      <span class="plus-button plus-button--large"></span>
+                    </button>
+
+                    <div id="global-tab-{{ i }}" class="card__collapsible">
+                      <div class="card__collapsible-content">
+                        <div class="rte text--pull">
+                          {{ global_tab_page.content }}
+                        </div>
+                      </div>
+                    </div>
+                  {%- else -%}
+                    <div class="card__header">
+                      <h2 class="card__title heading h3">{{ global_tab_page.title }}</h2>
+                    </div>
+
+                    <div class="card__section expandable-content" aria-expanded="false">
+                      <div class="rte text--pull">
+                        {{ global_tab_page.content }}
+                      </div>
+
+                      <button class="expandable-content__toggle">
+                        <span class="expandable-content__toggle-icon"></span>
+                        <span class="expandable-content__toggle-text" data-view-more="{{ 'product.general.view_more' | t | escape }}" data-view-less="{{ 'product.general.view_less' | t | escape }}">{{- 'product.general.view_more' | t -}}</span>
+                      </button>
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endunless -%}
+          {%- endfor -%}
+
+          {%- for i in (1..5) -%}
+            {%- assign unique_tab_title = '' -%}
+            {%- assign unique_tab_content = '' -%}
+
+            {%- comment -%}First check for metafields{%- endcomment -%}
+
+            {%- assign metafield_tab_title_option = 'tab_' | append: i | append: '_title' -%}
+            {%- assign metafield_tab_content_option = 'tab_' | append: i | append: '_content' -%}
+
+            {%- if product.metafields.sf_product_tabs[metafield_tab_title_option] != blank and product.metafields.sf_product_tabs[metafield_tab_content_option] != blank -%}
+              {%- assign unique_tab_title = product.metafields.sf_product_tabs[metafield_tab_title_option] -%}
+              {%- assign unique_tab_content = product.metafields.sf_product_tabs[metafield_tab_content_option] -%}
+            {%- else -%}
+              {%- assign tab_to_look = '__tab' | append: i | append: ':' -%}
+
+              {%- for tag in product.tags -%}
+                {%- if tag contains tab_to_look -%}
+                  {%- assign unique_tab_handle = tag | split: tab_to_look | last -%}
+                  {%- assign unique_tab_page = pages[unique_tab_handle] -%}
+
+                  {%- unless unique_tab_page.empty? -%}
+                    {%- assign unique_tab_title = unique_tab_page.title -%}
+                    {%- assign unique_tab_content = unique_tab_page.content -%}
+                    {%- break -%}
+                  {%- endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+
+            {%- if unique_tab_title != blank and unique_tab_content != blank -%}
+              <div class="product-block-list__item product-block-list__item--content">
+                <div class="card">
+                  {%- if section.settings.collapse_content -%}
+                    <button class="card__collapsible-button" data-action="toggle-collapsible" aria-expanded="false" aria-controls="unique-tab-{{ i }}">
+                      <span class="card__title heading h3">{{ unique_tab_title }}</span>
+                      <span class="plus-button plus-button--large"></span>
+                    </button>
+
+                    <div id="unique-tab-{{ i }}" class="card__collapsible">
+                      <div class="card__collapsible-content">
+                        <div class="rte text--pull">
+                          {{ unique_tab_content }}
+                        </div>
+                      </div>
+                    </div>
+                  {%- else -%}
+                    <div class="card__header">
+                      <h2 class="card__title heading h3">{{ unique_tab_title }}</h2>
+                    </div>
+
+                    <div class="card__section expandable-content" aria-expanded="false">
+                      <div class="rte text--pull">
+                        {{ unique_tab_content }}
+                      </div>
+
+                      <button class="expandable-content__toggle">
+                        <span class="expandable-content__toggle-icon"></span>
+                        <span class="expandable-content__toggle-text" data-view-more="{{ 'product.general.view_more' | t | escape }}" data-view-less="{{ 'product.general.view_less' | t | escape }}">{{- 'product.general.view_more' | t -}}</span>
+                      </button>
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+          
+		  {% for variant in product.variants %}
+          	{% if forloop.first == true %}
+				{%  assign ph =  variant.metafields.BCS.BCS_ph %}
+          		{%  assign video =  variant.metafields.BCS.BCS_video %}
+          	{% endif  %}
+		  {% endfor %}   
+          {% if video.size > 3 %}
+          	{% assign vidarr = video | split: ',' %}
+          	{% for vidname in vidarr %}
+          		<div class="prodVid" style="display: block;  margin-left: auto;  margin-right: auto; padding: 10px">
+  					<iframe src="{{ vidname }}" width="100%" height="" frameborder="0" allowfullscreen style="height: 360px"></iframe>            
+         		 </div>  
+          	{% endfor %}
+          {% endif %}
+		{%- comment -%}
+          --------------------------------------------------------------------------------------
+          ESTIMATE SHIPPING
+          --------------------------------------------------------------------------------------
+          {%- endcomment -%}
+
+          {%- if section.settings.show_shipping_estimator and product.available -%}
+            <div class="product-block-list__item product-block-list__item--shipping">
+              <div class="card">
+                <div class="card__header">
+                  <h2 class="card__title heading h3">{{ 'product.general.estimate_shipping' | t }} (${{ph}} Additional Shipping and Handling)</h2>
+                </div>
+
+                <div class="card__section">
+                  <div class="shipping-estimator form">
+                    <div class="form__input-row">
+                      <div class="form__input-wrapper">
+                        <label for="shipping-estimator-country" class="form__label">{{ 'cart.shipping_estimator.country' | t }}</label>
+
+                        <div class="select-wrapper select-wrapper--primary">
+                          {%- render 'icon', icon: 'arrow-bottom' -%}
+
+                          <select name="country" id="shipping-estimator-country" data-default="{{ customer.default_address.country | default: section.settings.shipping_estimator_default_country }}" required>
+                            {{- country_option_tags -}}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form__input-wrapper" style="display: none">
+                        <label for="shipping-estimator-province" class="form__label">{{ 'cart.shipping_estimator.province' | t }}</label>
+
+                        <div class="select-wrapper select-wrapper--primary">
+                          {%- render 'icon', icon: 'arrow-bottom' -%}
+
+                          <select name="province" id="shipping-estimator-province" data-default="{{ customer.default_address.province }}"></select>
+                        </div>
+                      </div>
+
+                      <div class="form__input-wrapper" style="max-width: 155px">
+                        <label for="shipping-estimator-zip" class="form__label">{{ 'cart.shipping_estimator.zip_code' | t }}</label>
+                        <input type="text" name="zip" id="shipping-estimator-zip" class="form__field form__field--text" value="{{ customer.default.address.zip }}" required>
+                      </div>
+                    </div>
+
+                    <button type="button" class="form__submit button button--primary" data-action="estimate-shipping">{{ 'cart.shipping_estimator.estimate' | t }}</button>
+
+                    <div class="shipping-estimator__results rte" style="display: none;"></div>
+                  </div>
+                </div>
+
+                {%- if section.settings.show_refunds_policy and shop.refund_policy != blank -%}
+                  <div class="card__section card__section--tight">
+                    <button class="product__refund-policy-link link link--accented" data-action="open-modal" aria-controls="modal-refunds-policy">{{ 'product.general.refund_policy' | t }} {%- render 'icon', icon: 'arrow-right' -%}</button>
+                  </div>
+                {%- endif -%}
+                
+                
+              </div>
+            </div>
+          {%- endif -%}
+          
+          {% render 'product-accessories' %}
+            
+         
+              
+          
+          <div class="card">
+            <div class="card__section">
+                  <img data-src="{{ 'warning.png' | asset_url }}" src="{{ 'warning.png' | asset_url }}"  width="24" height="24" style="vertical-align: middle" class="lazyload"> <b>CALIFORNIA WARNING:</b> This product can expose you to chemicals including lead, which is known to the State of California to cause cancer, and to cause birth defects or other reproductive harm. 
+              For more information go to <a href="https://www.p65warnings.ca.gov/">www.P65Warnings.ca.gov</a>.
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+    
+
+  
+    {%- if section.settings.show_refunds_policy and shop.refund_policy != blank -%}
+      <div id="modal-refunds-policy" class="modal" aria-hidden="true">
+        <div class="modal__dialog" role="dialog">
+          <header class="modal__header">
+            <h3 class="modal__title heading h2">{{ 'product.general.refund_policy' | t }}</h3>
+            <button class="modal__close link" data-action="close-modal">{%- render 'icon', icon: 'close' -%}</button>
+          </header>
+
+          <div class="modal__content">
+            <div class="rte">
+              {{ shop.refund_policy }}
+            </div>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    {%- comment -%}We display the quick view within the product template so we can re-use the same settings{%- endcomment -%}
+    <div class="featured-product">
+      {%- render 'product-gallery' -%}
+      {%- render 'product-info' -%}
+    </div>
+  {%- endif -%}
+  <div style="clear: both; margin-bottom: 60px"></div>
+  <div class="container container--flush">
+  	<div class="product-block-list__item">
+      <div class="card">
+  		<div class="tt-container" style="padding: 20px 30px 0;">
+     		<div id="tt-chatter-widget"></div>
+  		</div>
+        <div class="tt-container" style="padding: 20px 30px;">
+      		<div id="tt-instant-answers-widget"></div>
+  		</div>
+  		<div class="tt-container" style="padding:0 30px 20px;">
+      	  <div id="tt-qa-list-anchor" class="helpanchor"></div>
+          <div id="tt-qa-list"></div>
+   		</div>
+      </div>
+   </div>
+
+          <div class="product-block-list__item">
+            <div class="card">
+                <div class="card__section">
+                  <div id="tt-reviews-list-anchor" class="helpanchor"></div>
+                  <div id="tt-reviews-summary"></div>
+                  <div id="tt-reviews-list"></div>
+              	</div>
+            </div>
+          </div>
+    
+    <div class="product-block-list__item">
+      <div class="card">
+        <div class="tt-container">
+            
+  			<div id="tt-gallery-row"></div>
+		</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(g,e,o,t,l,y){
+var l=g.getElementsByTagName(e)[0],y=g.createElement(e); y.async=true;
+y.src='//geo-targetly.com/geocontent?id=-M-w007Tfx7odFm-Hln1&refurl='+g.referrer+'&winurl='+encodeURIComponent(window.location);
+l.parentNode.insertBefore(y,l);
+})(document,'script','style','head');
+</script>
+<script>
+  const tooltipContainer = document.querySelector(".tooltip-container")
+  const tipLink = document.querySelector(".tooltip")
+  const tipBox = document.querySelector(".tooltip--box")
+  const tipClose = document.querySelector(".tooltip--box-close")
+
+  if (tooltipContainer) {
+  tipLink.addEventListener('click', (e) => openToolTip(e))
+  tipClose.addEventListener('click', (e) => closeToolTip(e))  
+  }
+
+  function openToolTip(e) {
+    tipBox.classList.add("tooltip--box--visible")
+    e.preventDefault()
+  }
+
+  function closeToolTip(e) {
+    tipBox.classList.remove("tooltip--box--visible")
+    e.preventDefault()
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Product page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sku",
+      "label": "Show SKU",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": "Show share buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_taxes_included",
+      "label": "Show price taxes notice",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "selector_mode",
+      "label": "Selector type",
+      "options": [
+        {
+          "value": "block",
+          "label": "Block"
+        },
+        {
+          "value": "dropdown",
+          "label": "Dropdown"
+        }
+      ],
+      "default": "block"
+    },
+    {
+      "type": "select",
+      "id": "color_mode",
+      "label": "Color selector type",
+      "info": "Variant image mode requires that all variant has an associated image. [Learn more](https://help.shopify.com/en/manual/products/product-variant-images#add-images-to-existing-variants)",
+      "options": [
+        {
+          "value": "block",
+          "label": "Block"
+        },
+        {
+          "value": "dropdown",
+          "label": "Dropdown"
+        },
+        {
+          "value": "color",
+          "label": "Color swatch"
+        },
+        {
+          "value": "variant_image",
+          "label": "Variant image"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity_selector",
+      "label": "Show quantity selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_button",
+      "label": "Show dynamic checkout button",
+      "info": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "collapse_content",
+      "label": "Collapse description and tabs",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Inventory"
+    },
+    {
+      "type": "paragraph",
+      "content": "You can also add a stock countdown. [Learn more](https://support.maestrooo.com/article/177-product-show-an-stock-countdown-bar)."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_inventory_quantity",
+      "label": "Show inventory quantity",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "low_inventory_threshold",
+      "label": "Low inventory threshold",
+      "info": "Use low stock color when quantity is below the threshold. Choose 0 to always show in stock.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Image gallery"
+    },
+    {
+      "type": "paragraph",
+      "content": "Multiple images can be attached to a variant to create a group of images. [Learn more](https://support.maestrooo.com/article/187-product-creating-variant-image-set)."
+    },
+    {
+      "type": "select",
+      "id": "image_size",
+      "label": "Size",
+      "info": "Only applicable on desktop screens",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image_zoom",
+      "label": "Enable image zoom",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "zoom_effect",
+      "label": "Zoom effect",
+      "options": [
+        {
+          "value": "inside",
+          "label": "Inside"
+        },
+        {
+          "value": "outside",
+          "label": "Outside"
+        }
+      ],
+      "default": "outside"
+    },
+    {
+      "type": "select",
+      "id": "carousel_effect",
+      "label": "Transition effect",
+      "options": [
+        {
+          "value": "fade",
+          "label": "Fade"
+        },
+        {
+          "value": "slide",
+          "label": "Slide"
+        }
+      ],
+      "default": "fade"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "paragraph",
+      "content": "You can also add per-product tabs. [Learn more](http://support.maestrooo.com/article/83-product-adding-different-tabs-per-product)."
+    },
+    {
+      "type": "page",
+      "id": "tab_page_1_handle",
+      "label": "First page"
+    },
+    {
+      "type": "page",
+      "id": "tab_page_2_handle",
+      "label": "Second page"
+    },
+    {
+      "type": "page",
+      "id": "tab_page_3_handle",
+      "label": "Third page"
+    },
+    {
+      "type": "header",
+      "content": "Reviews"
+    },
+    {
+      "type": "paragraph",
+      "content": "You need to install [Shopify's free Product Reviews](https://apps.shopify.com/product-reviews) app before enabling those options."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_reviews",
+      "label": "Enable",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews_badge",
+      "label": "Show badge",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Trust"
+    },
+    {
+      "type": "text",
+      "id": "trust_title",
+      "label": "Heading",
+      "default": "Payment & Security"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_security_badge",
+      "label": "Security badge",
+      "info": "800 x 200px .jpg recommended"
+    },
+    {
+      "type": "header",
+      "content": "Shipping estimator"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_estimator",
+      "label": "Show shipping estimator",
+      "info": "Only show if product is available.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "shipping_estimator_default_country",
+      "label": "Default country",
+      "info": "If the customer is logged in, the country of their shipping address will be used.",
+      "default": "United States"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_refunds_policy",
+      "label": "Show refunds policy",
+      "info": "Refund policy must be added into your store policies. [Learn more](https://help.shopify.com/manual/sell-online/checkout-settings/refund-privacy-tos).",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

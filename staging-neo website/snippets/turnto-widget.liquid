@@ -1,0 +1,259 @@
+<div id="tt-teaser-icons" style="display:none;" width="0" height="0">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<symbol id="tt-teaser-star--empty" viewBox="0 0 24 24">
+<path d="M12 18l-6.4 3.88 1.73-7.33-5.66-4.93L9.09 9 12 2.09 14.91 9l7.42.64-5.63 5 1.72 7.34z" fill="none" xmlns="http://www.w3.org/2000/svg"></path>
+</symbol>
+
+<symbol id="tt-teaser-star--full" viewBox="0 0 24 24">
+<path d="M12 18.66l-7.44 4.35 1.98-8.16L0 9.36l8.62-.7L12 .99l3.38 7.67 8.62.7-6.54 5.49 1.98 8.16L12 18.66z" xmlns="http://www.w3.org/2000/svg"></path>
+</symbol>
+
+<symbol id="tt-teaser-star--half" viewBox="0 0 24 24">
+<path fill="currentColor" d="M12 2.09L9.09 9l-7.42.62 5.66 4.93-1.72 7.32 1.07-.65L12 17.97V2.09z" xmlns="http://www.w3.org/2000/svg"></path>
+<path d="M12 2.09L14.91 9l7.42.62-5.66 4.93 1.72 7.32-1.07-.65L12 17.97V2.09z"></path>
+</symbol>
+</div>
+
+<style>
+  .TTteaser {
+  font-size: 12px;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  }
+  .TTteaser__rating {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+  }
+  .TTteaser__star svg {
+  width: 16px;
+  height: 16px;
+  }
+  .TTteaser__icon--full {
+  fill: #FCB515;
+  }
+  .TTteaser__icon--half {
+  stroke: #FCB515;
+  fill: transparent;
+  color: #FCB515;
+  }
+  .TTteaser__icon--empty {
+  stroke: #FCB515;
+  }
+  .TTteaser__read-qa,
+  .TTteaser__read-comments,
+  .TTteaser__read-reviews,
+  .TTteaser__write-review {
+  font-size: 13px;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  color: #677279;
+  text-decoration: underline;
+  }
+  .TTteaser__write-review {
+  border: none;
+  text-decoration: underline;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  }
+  .tt-container {
+    width: 100%;
+    margin: 0 auto;
+  }
+</style>
+
+{%- assign page_id = "comments-pinboard-page" -%}
+{%- if template contains "product" -%}
+  {%- assign page_id = "pdp-page" -%}
+{%- elsif template contains "collection" -%}
+  {%- assign page_id = "comments-pinboard-teaser-page" -%}
+{%- elsif template contains "blog" -%}
+  {%- assign page_id = "comments-pinboard-page" -%}
+{%- elsif template contains "article" -%}
+  {%- assign page_id = "comments-pinboard-teaser-page" -%}
+{%- elsif template.suffix contains "vp" -%}
+  {%- assign page_id = "vc-pinboard-page" -%}
+{%- endif -%}
+
+<script>
+  var turnToConfig = {
+    locale: "en_US",
+    pageId: "{{ page_id }}",
+    {%- if template contains "product" -%}
+      sku: "{{ product.id }}",
+    {% endif %}
+    chatter: {
+      // onFinish: function(){}
+    },
+    gallery: {
+      skus: ["{{ product.id }}"]
+    },
+    commentsPinboardTeaser: {
+      // skus: [],
+      // tags: [],
+      // brands: [],
+      // onFinish: function(){}
+    },
+
+}
+window.TurnToCmd=window.TurnToCmd||function(){(TurnToCmd.q=TurnToCmd.q||[]).push(arguments)};
+window.TurnToSKUSetup="PRODUCT";
+</script>
+<script src="https://widgets.turnto.com/v5/widgets/Y52yQKWtdSFEM1psite/js/turnto.js" async=""></script>
+{%- if template contains "product" -%}
+  <script src="{{ 'turntoteaser.js' | asset_url }}"></script>
+  <script> loadTeaserCounts('{{ product.id }}'); </script>
+{% endif %}
+<script>
+  
+//  function loadTeaserCounts(sku) {
+//   var xhr = new XMLHttpRequest();
+//   var ugcCountsUrl = 'https://cdn-ws.turnto.com/v5/sitedata/Y52yQKWtdSFEM1psite/' + sku + '/d/ugc/counts/' + turnToConfig.locale;
+//   xhr.open('GET', ugcCountsUrl, true);
+//   xhr.addEventListener('load', function() {
+//     if (xhr.responseText) {
+//      populateTeaser(JSON.parse(xhr.responseText));
+//     }
+//   });
+//   xhr.send();
+//  }
+
+// function populateTeaser(counts) {
+//   var fragment = document.createDocumentFragment();
+//   if (counts.reviews > 0) { // has reviews
+//       fragment.appendChild(generateTeaserStars(counts.avgRating));
+//       fragment.appendChild(generateReadReviews(counts.reviews));
+//       if (counts.questions > 0) {
+//          fragment.appendChild(document.createTextNode(' | '));
+//          fragment.appendChild(generateQuestions(counts.questions, counts.answers));
+//       }
+//       else if (counts.comments > 3) {
+//          fragment.appendChild(document.createTextNode(' | '));
+//      fragment.appendChild(generateReadComments(counts.comments));
+//       }
+//       fragment.appendChild(document.createTextNode(' or '));
+//       fragment.appendChild(generateWriteReview('Write a Review'));
+// } else { // no reviews
+//       if (counts.questions > 0) {
+//    fragment.appendChild(generateQuestions(counts.questions,  counts.answers));
+//          fragment.appendChild(document.createTextNode(' or '));
+//       }
+//       else if (counts.comments > 3) {
+//       fragment.appendChild(generateReadComments(counts.comments));
+//          fragment.appendChild(document.createTextNode(' or '));
+//       }
+//       fragment.appendChild(generateWriteReview('Be the first to write a review'));
+//  }
+//   document.getElementById('tt-teaser').appendChild(fragment);
+   // add event listener to handle click to open the write a review screen
+//   document.querySelector('.TTteaser__write-review').addEventListener('click',
+//     function(e) { TurnToCmd('reviewsList.writeReview');}
+//   );
+//  }
+
+//  function createTeaserElement(tag, className, text) {
+//   var el = document.createElement(tag);
+//   el.setAttribute('class', className);
+//   if (text) {
+//     el.innerText = text;
+//   }
+//   return el;
+//  }
+
+//  function generateWriteReview(text) {
+//   return createTeaserElement('button', 'TTteaser__write-review', text);
+//  }
+
+//  function generateQuestions(num_questions, num_answers) {
+    // Populate 'x Questions' text with the number of questions
+//    var text = num_questions + ' Question' + (num_questions > 1 ? 's' : '');
+
+    // then populate the number of answers
+//    if (num_answers > 0) {
+//     text = text + ', ' + num_answers + ' Answer' + (num_answers > 1 ? 's' : '');
+//    }
+
+//    var el = createTeaserElement('a', 'TTteaser__read-qa', text);
+//     el.setAttribute('href', '#tt-instant-answers-widget');
+
+    //For the Q&A list widget set to the following
+    //el.setAttribute('href', '#tt-qa-list');
+
+//    return el;
+//  }
+
+//  function generateReadComments(numComments) {
+    // Populate the 'x Buyer Comments' text with the number of comments and set
+//    var text = numComments + ' Buyer Comment' + (numComments > 1 ? 's' : '');
+//    var el = createTeaserElement('a', 'TTteaser__read-comments', text);
+//    el.setAttribute('href', '#tt-chatter-widget');
+//    return el;
+//  }
+
+
+//  function generateReadReviews(numReviews) {
+    // Populate the 'Read x Reviews' text with the number of reviews and set
+//    var text = 'Read ' + numReviews + ' Review' + (numReviews > 1 ? 's' : '');
+//    var el = createTeaserElement('a', 'TTteaser__read-reviews', text);
+//    el.setAttribute('href', '#tt-reviews-list-anchor');
+//    return el;
+//  }
+
+//  function generateTeaserStar(starType) {
+//    var svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+//    svgEl.setAttribute('class', 'TTteaser__icon--' + starType);
+//    useEl = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+//    useEl.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+//      '#tt-teaser-star--' + starType);
+//    svgEl.appendChild(useEl);
+//    var el = createTeaserElement('span', 'TTteaser__star');
+//    el.appendChild(svgEl);
+//    return el;
+//  }
+
+  // adjusts/rounds the rating to have decimal value of .0 or .5
+//  function getAdjustedRating(rating) {
+//    var floorValue = Math.floor(rating);
+//    var rounded = Math.round(rating * 100) / 100;
+//    var decimalValue = parseFloat((rounded - floorValue).toFixed(2));
+//    if (decimalValue < 0.25) {
+//      return floorValue;
+//    } else if (decimalValue < 0.75) {
+//      return floorValue + 0.5;
+//    }
+//    return floorValue + 1;
+//  }
+
+//  function generateTeaserStars(rating) {
+//    var el = createTeaserElement('div', 'TTteaser__rating');
+//    var adjustedRating = getAdjustedRating(rating);
+ //   for (var i = 1; i <= 5 ; i++) {
+//      if (i > adjustedRating && i - adjustedRating >= 1) {
+//        el.appendChild(generateTeaserStar('empty'));
+//      } else if (i <= adjustedRating) {
+//        el.appendChild(generateTeaserStar('full'));
+//      } else {
+//        el.appendChild(generateTeaserStar('half'));
+//      }
+//    }
+//    return el;
+//  }
+
+  function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookieArray = decodedCookie.split(';');
+    for(var i=0; i < cookieArray.length; i++) {
+      var c = cookieArray[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
+
+</script>
