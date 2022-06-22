@@ -1,2 +1,2 @@
 # hurrik test
-sdfsdfrf copy-master
+sdfsdfrf master
